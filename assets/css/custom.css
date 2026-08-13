@@ -1007,51 +1007,198 @@ main header h1,
   }
 }
 
-/* -- 13b Homepage masthead (§03, §04) ------------------------------------- */
+/* -- 13b Homepage hero (§05) ----------------------------------------------
+   Traffic lanes carrying packets, under an inspection beam that brightens a dot
+   field as it passes — the two things the site is about, in one plate.
 
-.dh-masthead {
+   Composition rule: lanes that would run through the copy are masked back so a
+   hairline never reads as a strikethrough; the lanes above and below it run edge
+   to edge. Motion is transform and mask-position only — no layout, no paint of
+   large areas — and it all stops under prefers-reduced-motion. */
+
+.dh-hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  min-height: 440px;
+  margin-top: var(--dh-s6);
+  background: var(--dh-surface-card);
+  border: 1px solid var(--dh-line-card);
+  border-radius: var(--dh-r-card);
+  box-shadow: var(--dh-inset-top);
+}
+
+.dh-hero__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Everything that must stay off the copy shares one mask. */
+.dh-hero__masked,
+.dh-hero__sweep {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, transparent 46%, #000 70%);
+  mask-image: linear-gradient(90deg, transparent 0%, transparent 46%, #000 70%);
+}
+
+.dh-hero__lanes {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Packets. Lane positions are percentages so they track the lanes at any hero
+   height — the SVG stretches, and pixel offsets would drift off it. */
+.dh-pk {
+  position: absolute;
+  left: 44%;
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(90deg, rgba(0, 192, 232, 0) 0%, var(--dh-accent) 55%, rgba(0, 192, 232, 0) 100%);
+  animation: dh-pk-run var(--dh-dur, 5s) linear var(--dh-delay, 0s) infinite;
+  opacity: var(--dh-op, .75);
+  will-change: transform;
+}
+
+@keyframes dh-pk-run {
+  from { transform: translateX(-120px); }
+  to { transform: translateX(1000px); }
+}
+
+.dh-pk--open {
+  left: 0;
+  animation-name: dh-pk-open;
+}
+
+@keyframes dh-pk-open {
+  from { transform: translateX(-240px); }
+  to { transform: translateX(1340px); }
+}
+
+/* Dot field. An SVG <pattern> rather than a few thousand rects — and no
+   viewBox, so the dots stay square whatever the hero measures. */
+.dh-hero__dots {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* The bright band and the beam run off the same animation, so the line always
+   sits at the leading edge of what it has just lit up. */
+.dh-hero__hot,
+.dh-hero__beam {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-size: 220% 100%;
+  mask-size: 220% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: dh-sweep 6.5s linear infinite;
+}
+
+.dh-hero__hot {
+  -webkit-mask-image: linear-gradient(90deg, transparent 40%, #000 50%, transparent 60%);
+  mask-image: linear-gradient(90deg, transparent 40%, #000 50%, transparent 60%);
+}
+
+.dh-hero__beam {
+  -webkit-mask-image: linear-gradient(90deg, transparent 49.6%, #000 50%, transparent 50.4%);
+  mask-image: linear-gradient(90deg, transparent 49.6%, #000 50%, transparent 50.4%);
+}
+
+.dh-hero__beam i {
+  position: absolute;
+  inset: 0;
+  opacity: .45;
+  background: linear-gradient(180deg, rgba(0, 192, 232, 0) 0%, var(--dh-accent) 16%, var(--dh-accent) 84%, rgba(0, 192, 232, 0) 100%);
+}
+
+@keyframes dh-sweep {
+  from { -webkit-mask-position: -120% 0; mask-position: -120% 0; }
+  to { -webkit-mask-position: 120% 0; mask-position: 120% 0; }
+}
+
+.dh-hero__fg {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--dh-s3);
-  padding-bottom: var(--dh-s6);
-  border-bottom: 1px solid var(--dh-line);
+  padding: 52px 48px;
+  max-width: 720px;
 }
 
-.dh-masthead__lockup {
+/* Hero lockup. The 50.5px word and 45px mark are not arbitrary: at this size
+   the lockup measures exactly as wide as the tagline, so the two share a right
+   edge. Re-measure if the tagline text changes. */
+.dh-lockup {
   display: flex;
   align-items: center;
   gap: 16px;
+  margin: 0;
 }
 
-.dh-masthead__mark {
+.dh-lockup__mark {
   flex: none;
 }
 
-/* Display — 40/41, 700, -.04em (§03) */
-.dh-masthead__word {
-  font-size: 40px;
+.dh-lockup__word {
+  font-size: 50.5px;
   font-weight: 700;
   letter-spacing: -0.045em;
-  line-height: 1.02;
-  margin: 0;
+  line-height: 1;
   color: var(--dh-heading);
+  white-space: nowrap;
 }
 
-.dh-masthead__dek {
+.dh-lockup__word b {
+  font-weight: 800;
+  color: var(--dh-accent);
+}
+
+.dh-lockup__word i {
+  font-style: normal;
+  color: var(--dh-muted);
+}
+
+.dh-hero__tagline {
   font-size: 20px;
   line-height: 1.5;
   color: var(--dh-secondary);
-  max-width: 600px;
+  max-width: 44ch;
   margin: 0;
   text-wrap: pretty;
 }
 
-.dh-masthead__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--dh-s2);
-  padding-top: var(--dh-s1);
+@media (max-width: 900px) {
+  .dh-hero__fg { padding: 34px 24px; max-width: none; }
+  .dh-lockup__word { font-size: 32px; }
+  .dh-lockup__mark { width: 32px; height: 32px; }
+  .dh-hero__tagline { font-size: 17px; }
+  /* Stacked, the copy sits over the whole plate — fade the art downward. */
+  .dh-hero__masked,
+  .dh-hero__sweep {
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 72%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 72%);
+  }
 }
+
+/* The hero is decoration. If motion is unwelcome, it holds still. */
+@media (prefers-reduced-motion: reduce) {
+  .dh-pk,
+  .dh-hero__hot,
+  .dh-hero__beam {
+    animation: none;
+  }
+  .dh-hero__hot { -webkit-mask-image: none; mask-image: none; opacity: .4; }
+  .dh-hero__beam { display: none; }
+}
+
+/* -- 13c Homepage list ---------------------------------------------------- */
 
 .dh-home-list {
   display: flex;
@@ -1084,11 +1231,6 @@ main header h1,
   margin-top: var(--dh-s6);
   padding-top: var(--dh-s6);
   border-top: 1px solid var(--dh-line);
-}
-
-@media (max-width: 640px) {
-  .dh-masthead__word { font-size: 30px; }
-  .dh-masthead__dek { font-size: 17px; }
 }
 
 /* -- 14 Footer (§05) ------------------------------------------------------ */

@@ -1,30 +1,93 @@
-{{/* Homepage — masthead over a dense post list.
-  DESIGN-SYSTEM.md §03 (display type), §04 (density), §05 (post row).
-  No hero image, no cards: information per screen beats breathing room.
+{{/* Homepage — hero over the card grid.
+  DESIGN-SYSTEM.md §05 "Homepage hero".
+
+  The plate carries traffic lanes with packets running along them, under an
+  inspection beam that brightens a dot field as it passes. Lanes that would run
+  through the copy are held back by a mask; the ones above and below it run edge
+  to edge.
+
+  Everything is markup + CSS — the dot field is an SVG <pattern>, not 1,750
+  rects and not JavaScript, so it costs nothing to render and works with JS off.
+  All motion stops under prefers-reduced-motion (see custom.css).
 */}}
 
-<section class="dh-masthead">
-  <p class="dh-eyebrow">AI · Zero Trust · SASE</p>
+<section class="dh-hero">
+  <div class="dh-hero__bg" aria-hidden="true">
 
-  <div class="dh-masthead__lockup">
-    {{/* Logo mark at 46px keeps the core dot (the <=32px rule drops it). */}}
-    <svg class="dh-masthead__mark" width="46" height="46" viewBox="0 0 100 100" fill="none" aria-hidden="true" focusable="false">
-      <g transform="translate(-9,0)">
-        <path d="M62.9 65.3 A20 20 0 1 1 62.9 34.7" fill="none" stroke="#E8F6FA" stroke-width="12" />
-        <path d="M74.4 20.9 A38 38 0 0 1 74.4 79.1" fill="none" stroke="#00C0E8" stroke-width="12" />
-        <circle cx="50" cy="50" r="8" fill="#E8F6FA" />
+    {{/* lanes clear of the copy — full width */}}
+    <svg class="dh-hero__lanes" viewBox="0 0 1200 440" preserveAspectRatio="none" focusable="false">
+      <g stroke="#00C0E8" stroke-opacity=".13" stroke-width="1">
+        <path d="M0 55H1200M0 115H1200M0 355H1200M0 415H1200" />
       </g>
     </svg>
-    <h1 class="dh-masthead__word">dependency<span class="dh-brand__hell">hell</span><span class="dh-brand__tld">.net</span></h1>
+    <i class="dh-pk dh-pk--open" style="top:12.50%;width:120px;--dh-dur:4.6s;--dh-delay:0s;--dh-op:.8"></i>
+    <i class="dh-pk dh-pk--open" style="top:12.50%;width:64px;--dh-dur:6.2s;--dh-delay:2.6s;--dh-op:.45"></i>
+    <i class="dh-pk dh-pk--open" style="top:12.50%;width:88px;--dh-dur:5.0s;--dh-delay:4.3s;--dh-op:.6"></i>
+    <i class="dh-pk dh-pk--open" style="top:26.14%;width:180px;--dh-dur:5.2s;--dh-delay:1.1s;--dh-op:.7"></i>
+    <i class="dh-pk dh-pk--open" style="top:26.14%;width:72px;--dh-dur:4.0s;--dh-delay:3.4s;--dh-op:.55"></i>
+    <i class="dh-pk dh-pk--open" style="top:80.68%;width:76px;--dh-dur:4.8s;--dh-delay:0.8s;--dh-op:.75"></i>
+    <i class="dh-pk dh-pk--open" style="top:80.68%;width:168px;--dh-dur:5.4s;--dh-delay:3.0s;--dh-op:.5"></i>
+    <i class="dh-pk dh-pk--open" style="top:94.32%;width:160px;--dh-dur:5.8s;--dh-delay:1.9s;--dh-op:.4"></i>
+    <i class="dh-pk dh-pk--open" style="top:94.32%;width:64px;--dh-dur:4.0s;--dh-delay:4.4s;--dh-op:.65"></i>
+
+    {{/* lanes that pass behind the copy — masked back */}}
+    <div class="dh-hero__masked">
+      <svg class="dh-hero__lanes" viewBox="0 0 1200 440" preserveAspectRatio="none" focusable="false">
+        <g stroke="#00C0E8" stroke-opacity=".13" stroke-width="1">
+          <path d="M0 175H1200M0 235H1200M0 295H1200" />
+        </g>
+        <g stroke="#00C0E8" stroke-opacity=".05" stroke-width="1">
+          <path d="M200 0V440M400 0V440M600 0V440M800 0V440M1000 0V440" />
+        </g>
+      </svg>
+      <i class="dh-pk" style="top:39.77%;width:90px;--dh-dur:3.8s;--dh-delay:0.5s;--dh-op:.85"></i>
+      <i class="dh-pk" style="top:39.77%;width:150px;--dh-dur:5.6s;--dh-delay:2.9s;--dh-op:.5"></i>
+      <i class="dh-pk" style="top:53.41%;width:220px;--dh-dur:5.0s;--dh-delay:0.2s;--dh-op:.6"></i>
+      <i class="dh-pk" style="top:53.41%;width:56px;--dh-dur:3.4s;--dh-delay:2.2s;--dh-op:.9"></i>
+      <i class="dh-pk" style="top:67.05%;width:140px;--dh-dur:6.0s;--dh-delay:1.6s;--dh-op:.45"></i>
+      <i class="dh-pk" style="top:67.05%;width:80px;--dh-dur:4.2s;--dh-delay:3.8s;--dh-op:.7"></i>
+    </div>
+
+    {{/* the inspection sweep */}}
+    <div class="dh-hero__sweep">
+      <svg class="dh-hero__dots" focusable="false">
+        <defs>
+          <pattern id="dhDotsDim" width="17" height="17" patternUnits="userSpaceOnUse">
+            <rect width="2.5" height="2.5" fill="#00C0E8" fill-opacity=".11" />
+          </pattern>
+          <pattern id="dhDotsHot" width="17" height="17" patternUnits="userSpaceOnUse">
+            <rect width="2.5" height="2.5" fill="#7FE4F7" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#dhDotsDim)" />
+      </svg>
+      <div class="dh-hero__hot">
+        <svg class="dh-hero__dots" focusable="false">
+          <rect width="100%" height="100%" fill="url(#dhDotsHot)" />
+        </svg>
+      </div>
+      <div class="dh-hero__beam"><i></i></div>
+    </div>
+
   </div>
 
-  {{ with site.Params.description }}
-    <p class="dh-masthead__dek">{{ . | markdownify }}</p>
-  {{ end }}
+  <div class="dh-hero__fg">
+    <p class="dh-eyebrow">AI · Zero Trust · SASE</p>
 
-  <div class="dh-masthead__actions">
-    <a class="dh-btn" href="{{ "posts/" | relLangURL }}">All posts</a>
-    <a class="dh-btn dh-btn--stroke" href="{{ "tags/" | relLangURL }}">Topics</a>
+    {{/* The site name is the page heading on the homepage. Mark stays above the
+         32px threshold, so it keeps its core dot. */}}
+    <h1 class="dh-lockup">
+      <svg class="dh-lockup__mark" width="45" height="45" viewBox="0 0 100 100" fill="none" aria-hidden="true" focusable="false">
+        <g transform="translate(-9,0)">
+          <path d="M62.9 65.3 A20 20 0 1 1 62.9 34.7" fill="none" stroke="#E8F6FA" stroke-width="12" />
+          <path d="M74.4 20.9 A38 38 0 0 1 74.4 79.1" fill="none" stroke="#00C0E8" stroke-width="12" />
+          <circle cx="50" cy="50" r="8" fill="#E8F6FA" />
+        </g>
+      </svg>
+      <span class="dh-lockup__word">dependency<b>hell</b><i>.net</i></span>
+    </h1>
+
+    {{ with site.Params.tagline }}<p class="dh-hero__tagline">{{ . }}</p>{{ end }}
   </div>
 </section>
 

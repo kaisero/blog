@@ -1,6 +1,9 @@
 # dependencyhell.net — design system
 
-Version 1.1. The prose form of `dependencyhell.net Design System.dc (1).html`.
+Version 1.2. The prose form of `dependencyhell.net Design System.dc (1).html`.
+
+**Changed in 1.2** — the homepage masthead is replaced by an animated hero
+(§05). The wordmark is now the page `h1`; the keywords moved down to the eyebrow.
 
 **Changed in 1.1** — lists moved from dense rows to three-up cards with
 thumbnails. v1.0 forbade image cards outright; that rule is withdrawn and
@@ -116,6 +119,15 @@ the title row.
 - **Site header** — fixed, hairline, blurred. Height 54px. Mark at 26px with the
   core dot dropped (the ≤32px rule). Active nav item = full-strength text + 2px
   cyan underline. The wordmark is excluded from the active rule.
+- **Homepage hero** — one plate, 440px tall, card surface. Traffic lanes carry
+  packets under an inspection beam that brightens a dot field as it passes. The
+  composition rule is that art never crosses copy: lanes running behind the text
+  are masked back, the lanes above and below run edge to edge. The wordmark is
+  the `h1` — 50.5px word, 45px mark, sized so the lockup and the tagline share a
+  right edge (re-measure if the tagline changes). No buttons: the card grid is
+  immediately below them. Lane positions are percentages, never pixels, so they
+  track the lanes at any hero height. Motion is transform and mask-position
+  only, and stops entirely under `prefers-reduced-motion`.
 - **Buttons** — mono, uppercase, height 42px, radius 6. Primary = cyan-500 fill
   with `#001D2B` ink. The stroke variant keeps the same box by trading 2px of
   padding for the border.

@@ -10,6 +10,9 @@ title = "dependencyhell.net"
   rtl = false
   dateFormat = "2 January 2006"  # design system: "11 August 2026"
   description = "Notes on AI security, Zero Trust and SASE — from the lab, not the datasheet."
+  # Shown in the homepage hero under the wordmark. The hero lockup is sized to
+  # match this line's width, so re-check the alignment if you change it.
+  tagline = "Trust Nothing. Verify Everything. Hallucinate the Rest."
   copyright = "© 2026 dependencyhell.net"
 
 [params.author]

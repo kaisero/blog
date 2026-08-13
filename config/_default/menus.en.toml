@@ -1,5 +1,5 @@
 # -- Main Menu --
-# Design system: Posts · Topics · Lab · About, then search.
+# Posts · Topics · About, then search.
 
 [[main]]
   name = "Posts"
@@ -10,11 +10,6 @@
   name = "Topics"
   pageRef = "tags"
   weight = 20
-
-[[main]]
-  name = "Lab"
-  pageRef = "lab"
-  weight = 30
 
 [[main]]
   name = "About"
@@ -32,3 +27,22 @@
   name = "RSS"
   url = "/index.xml"
   weight = 20
+
+# `pre` pulls the icon from the theme's assets/icons/ set.
+[[footer]]
+  name = "GitHub"
+  pre = "github"
+  url = "https://github.com/kaisero"
+  weight = 30
+
+[[footer]]
+  name = "LinkedIn"
+  pre = "linkedin"
+  url = "https://linkedin.com/in/kaisero"
+  weight = 40
+
+[[footer]]
+  name = "Email"
+  pre = "email"
+  url = "mailto:oliver@mackenzie.co.at"
+  weight = 50

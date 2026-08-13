@@ -48,7 +48,7 @@ assets/css/custom.css                   surfaces, type, density, components
 layouts/partials/                       overrides: post row, header, home, related, alert
 config/_default/                        site + theme configuration
 static/fonts/                           self-hosted Figtree + JetBrains Mono (51 KB)
-content/                                posts, lab, about
+content/                                posts, about
 ```
 
 Fonts are self-hosted rather than loaded from Google Fonts — no third-party

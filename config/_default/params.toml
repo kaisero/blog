@@ -16,7 +16,7 @@ enableStyledScrollbar = true
 
 replyByEmail = false
 
-mainSections = ["posts", "lab"]
+mainSections = ["posts"]
 
 disableImageOptimization = false
 disableImageOptimizationMD = false

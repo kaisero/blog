@@ -23,8 +23,17 @@ This site is where the leftovers go. Specifically:
   versus the parts we already had names for.
 
 Everything is written from the bench. If a post makes a claim about how a
-product behaves, there is a setup in [the Lab](/lab/) you can rebuild to check
-it. If I get something wrong, I would rather hear it than not.
+product behaves, the setup that produced it is in the post, so you can rebuild
+it and check. If I get something wrong, I would rather hear it than not.
+
+## Elsewhere
+
+- **Email** — [oliver@mackenzie.co.at](mailto:oliver@mackenzie.co.at)
+- **LinkedIn** — [linkedin.com/in/kaisero](https://linkedin.com/in/kaisero)
+- **GitHub** — [github.com/kaisero](https://github.com/kaisero)
+
+Corrections and disagreements are welcome, especially the specific kind with a
+packet capture attached.
 
 ## Disclaimer
 

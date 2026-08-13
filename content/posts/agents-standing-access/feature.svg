@@ -1,25 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400" role="img" aria-label="One node holding standing edges to many resources">
-  <defs>
-    <linearGradient id="bg2" x1="0" y1="0" x2="0.22" y2="1">
-      <stop offset="0" stop-color="#011A26"/>
-      <stop offset="0.46" stop-color="#00090E"/>
-      <stop offset="1" stop-color="#000508"/>
-    </linearGradient>
-    <linearGradient id="fade2" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#00C0E8" stop-opacity="0.9"/>
-      <stop offset="1" stop-color="#00C0E8" stop-opacity="0"/>
-    </linearGradient>
-  </defs>
-
-  <rect width="600" height="400" fill="url(#bg2)"/>
-
-  <g stroke="#00C0E8" stroke-opacity="0.07" stroke-width="1">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" class="dh-thumb" role="img" aria-label="One node holding standing edges to many resources">
+  <g class="t-grid">
     <path d="M0 80.5H600M0 160.5H600M0 240.5H600M0 320.5H600"/>
     <path d="M120.5 0V400M240.5 0V400M360.5 0V400M480.5 0V400"/>
   </g>
 
   <!-- standing edges from a single principal -->
-  <g stroke="#0196B3" stroke-width="1.5" stroke-opacity="0.55">
+  <g class="t-edge" stroke-width="1.5">
     <path d="M150 200 L430 72"/>
     <path d="M150 200 L430 136"/>
     <path d="M150 200 L430 200"/>
@@ -28,7 +14,7 @@
   </g>
 
   <!-- the resources it can always reach -->
-  <g fill="none" stroke="#7FA8B5" stroke-width="2">
+  <g class="t-line" fill="none" stroke-width="2">
     <rect x="418" y="60" width="24" height="24" rx="4"/>
     <rect x="418" y="124" width="24" height="24" rx="4"/>
     <rect x="418" y="188" width="24" height="24" rx="4"/>
@@ -37,8 +23,8 @@
   </g>
 
   <!-- the agent: one credential, no expiry -->
-  <circle cx="150" cy="200" r="34" fill="none" stroke="#00C0E8" stroke-width="10"/>
-  <circle cx="150" cy="200" r="10" fill="#E8F6FA"/>
+  <circle class="t-accent" cx="150" cy="200" r="34" fill="none" stroke-width="10"/>
+  <circle class="t-ink" cx="150" cy="200" r="10"/>
 
-  <rect x="48" y="336" width="120" height="1" fill="url(#fade2)"/>
+  <rect class="t-rule" x="48" y="336" width="120" height="1"/>
 </svg>

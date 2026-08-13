@@ -59,8 +59,13 @@
   --dh-r-button: 6px;
   --dh-r-tag: 5px;
 
-  /* Colour (§02) */
+  /* Colour (§02).
+     --dh-accent is the *safe* accent: it is used for text, borders and graphics,
+     so in the light appearance it darkens to keep 4.5:1. --dh-accent-fill is the
+     bright cyan used only as a filled surface behind ink, where it is legible in
+     both appearances. */
   --dh-accent: #00c0e8;
+  --dh-accent-fill: #00c0e8;
   --dh-accent-hover: #0196b3;
   --dh-cyan-300: #7fe4f7;
   --dh-cyan-400: #56d6f4;
@@ -93,6 +98,41 @@
   --dh-date-col: 96px;
 
   --dh-transition: 150ms;
+
+  /* Washes and borders derived from the accent (§01) */
+  --dh-select: rgba(0, 192, 232, 0.28);
+  --dh-wash: rgba(0, 192, 232, 0.1);
+  --dh-wash-strong: rgba(0, 192, 232, 0.12);
+  --dh-wash-border: rgba(0, 192, 232, 0.22);
+  --dh-tag-border: rgba(0, 192, 232, 0.18);
+  --dh-line-hover: rgba(0, 192, 232, 0.32);
+  --dh-code-border: rgba(0, 192, 232, 0.16);
+  --dh-toc-idle: rgba(0, 192, 232, 0.2);
+  --dh-alert-bg: linear-gradient(96deg, rgba(0, 192, 232, 0.1) 0%, rgba(0, 9, 14, 0) 82%);
+  --dh-link-underline: rgba(1, 150, 179, 0.6);
+
+  /* The brand cyan as a graphic stroke. Distinct from --dh-accent because the
+     logo keeps its cyan character in both appearances; it only darkens enough
+     to clear the 3:1 non-text floor on a light canvas. */
+  --dh-brand-cyan: #00c0e8;
+
+  /* Homepage hero graphics (§05) */
+  --dh-lane: rgba(0, 192, 232, 0.13);
+  --dh-lane-faint: rgba(0, 192, 232, 0.05);
+  --dh-dot-dim: rgba(0, 192, 232, 0.11);
+  --dh-dot-hot: #7fe4f7;
+
+  /* Card thumbnail art (§05) */
+  --dh-thumb-bg: linear-gradient(168deg, #011a26 0%, #00090e 46%, #000508 100%);
+  --dh-thumb-grid: rgba(0, 192, 232, 0.07);
+  --dh-thumb-ghost: rgba(0, 192, 232, 0.14);
+  --dh-thumb-rule: rgba(0, 192, 232, 0.55);
+  --dh-thumb-line: #7fa8b5;
+  --dh-thumb-edge: #0196b3;
+  --dh-thumb-accent: #00c0e8;
+  --dh-thumb-deep: #0a4e5e;
+  --dh-thumb-ink: #e8f6fa;
+  --dh-thumb-plate: #000508;
 }
 
 @media (max-width: 1024px) {
@@ -142,7 +182,7 @@ button,
 }
 
 ::selection {
-  background: rgba(0, 192, 232, 0.28);
+  background: var(--dh-select);
   color: var(--dh-heading);
 }
 
@@ -188,12 +228,12 @@ time,
 .dh-prose a {
   color: var(--dh-link);
   text-decoration: none;
-  border-bottom: 1px solid rgba(1, 150, 179, 0.6);
+  border-bottom: 1px solid var(--dh-link-underline);
 }
 
 .prose a:not(.dh-row__link):not(.dh-tag):not(.dh-btn):not(.dh-card-link__hit):hover,
 .dh-prose a:hover {
-  color: #00c0e8;
+  color: var(--dh-accent);
   border-bottom-color: var(--dh-accent);
 }
 
@@ -396,7 +436,7 @@ section:has(> .dh-card-link) {
 }
 
 .dh-card-link:hover {
-  border-color: rgba(0, 192, 232, 0.32);
+  border-color: var(--dh-line-hover);
 }
 
 /* One hit area for the whole card; the title is not separately focusable. */
@@ -418,10 +458,29 @@ section:has(> .dh-card-link) {
 
 .dh-card-link__thumb {
   aspect-ratio: var(--dh-thumb-ratio, 1.5);
-  background: var(--dh-surface-code);
+  background: var(--dh-thumb-bg);
   border-bottom: 1px solid var(--dh-line-card);
   overflow: hidden;
 }
+
+/* Thumbnail art. The SVGs carry no colour of their own — every stroke and fill
+   resolves to a token here, so the art follows the appearance. */
+.dh-thumb {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.dh-thumb .t-grid { stroke: var(--dh-thumb-grid); stroke-width: 1; fill: none; }
+.dh-thumb .t-line { stroke: var(--dh-thumb-line); }
+.dh-thumb .t-edge { stroke: var(--dh-thumb-edge); stroke-opacity: .55; fill: none; }
+.dh-thumb .t-accent { stroke: var(--dh-thumb-accent); }
+.dh-thumb .t-deep { stroke: var(--dh-thumb-deep); }
+.dh-thumb .t-ghost { stroke: var(--dh-thumb-ghost); }
+.dh-thumb .t-ink { fill: var(--dh-thumb-ink); }
+.dh-thumb .t-ink-stroke { stroke: var(--dh-thumb-ink); fill: none; }
+.dh-thumb .t-plate { fill: var(--dh-thumb-plate); }
+.dh-thumb .t-rule { fill: var(--dh-thumb-rule); }
 
 .dh-card-link__thumb img {
   width: 100%;
@@ -505,7 +564,7 @@ section:has(> .dh-card-link) {
   text-transform: uppercase;
   color: var(--dh-muted);
   background: transparent; /* transparent fill always */
-  border: 1px solid rgba(0, 192, 232, 0.18);
+  border: 1px solid var(--dh-tag-border);
   border-radius: var(--dh-r-tag);
   padding: 4px 8px;
   line-height: 1;
@@ -541,7 +600,7 @@ section:has(> .dh-card-link) {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   border-radius: var(--dh-r-button);
-  background: var(--dh-accent);
+  background: var(--dh-accent-fill);
   color: var(--dh-ink);
   border: 0;
   border-bottom: 0;
@@ -587,22 +646,40 @@ section:has(> .dh-card-link) {
 /* -- 09 Article prose ----------------------------------------------------- */
 
 .prose {
-  --tw-prose-invert-body: #c4e2ec;
-  --tw-prose-invert-headings: #e8f6fa;
-  --tw-prose-invert-lead: #a9ccd8;
-  --tw-prose-invert-links: #56d6f4;
-  --tw-prose-invert-bold: #e8f6fa;
-  --tw-prose-invert-counters: #6b94a3;
-  --tw-prose-invert-bullets: #0196b3;
-  --tw-prose-invert-hr: rgba(0, 192, 232, 0.15);
-  --tw-prose-invert-quotes: #a9ccd8;
-  --tw-prose-invert-quote-borders: #00c0e8;
-  --tw-prose-invert-captions: #7fa8b5;
-  --tw-prose-invert-code: #7fe4f7;
-  --tw-prose-invert-pre-code: #a9ccd8;
-  --tw-prose-invert-pre-bg: #01202e;
-  --tw-prose-invert-th-borders: rgba(0, 192, 232, 0.15);
-  --tw-prose-invert-td-borders: rgba(232, 246, 250, 0.08);
+  /* One source of truth: the --dh-* tokens already switch by appearance, so the
+     light (--tw-prose-*) and dark (--tw-prose-invert-*) sets both point at them. */
+  --tw-prose-body: var(--dh-body);
+  --tw-prose-headings: var(--dh-heading);
+  --tw-prose-lead: var(--dh-secondary);
+  --tw-prose-links: var(--dh-link);
+  --tw-prose-bold: var(--dh-heading);
+  --tw-prose-counters: var(--dh-meta);
+  --tw-prose-bullets: var(--dh-accent);
+  --tw-prose-hr: var(--dh-line);
+  --tw-prose-quotes: var(--dh-secondary);
+  --tw-prose-quote-borders: var(--dh-accent);
+  --tw-prose-captions: var(--dh-muted);
+  --tw-prose-code: var(--dh-cyan-300);
+  --tw-prose-pre-code: var(--dh-secondary);
+  --tw-prose-pre-bg: var(--dh-surface-code);
+  --tw-prose-th-borders: var(--dh-line);
+  --tw-prose-td-borders: var(--dh-line-divider);
+  --tw-prose-invert-body: var(--dh-body);
+  --tw-prose-invert-headings: var(--dh-heading);
+  --tw-prose-invert-lead: var(--dh-secondary);
+  --tw-prose-invert-links: var(--dh-link);
+  --tw-prose-invert-bold: var(--dh-heading);
+  --tw-prose-invert-counters: var(--dh-meta);
+  --tw-prose-invert-bullets: var(--dh-accent);
+  --tw-prose-invert-hr: var(--dh-line);
+  --tw-prose-invert-quotes: var(--dh-secondary);
+  --tw-prose-invert-quote-borders: var(--dh-accent);
+  --tw-prose-invert-captions: var(--dh-muted);
+  --tw-prose-invert-code: var(--dh-cyan-300);
+  --tw-prose-invert-pre-code: var(--dh-secondary);
+  --tw-prose-invert-pre-bg: var(--dh-surface-code);
+  --tw-prose-invert-th-borders: var(--dh-line);
+  --tw-prose-invert-td-borders: var(--dh-line-divider);
   font-size: 16px;
   line-height: 1.62;
 }
@@ -703,8 +780,8 @@ main header h1,
   font-family: var(--dh-mono);
   font-size: 13px;
   color: var(--dh-cyan-300);
-  background: rgba(0, 192, 232, 0.1);
-  border: 1px solid rgba(0, 192, 232, 0.22);
+  background: var(--dh-wash);
+  border: 1px solid var(--dh-wash-border);
   border-radius: 4px;
   padding: 1px 5px;
   font-weight: 400;
@@ -724,14 +801,14 @@ main header h1,
   line-height: 1.7;
   color: var(--dh-secondary);
   background: var(--dh-surface-code);
-  border: 1px solid rgba(0, 192, 232, 0.16);
+  border: 1px solid var(--dh-code-border);
   border-radius: var(--dh-r-panel);
   padding: 16px 18px;
 }
 
 .prose .highlight {
   background: var(--dh-surface-code);
-  border: 1px solid rgba(0, 192, 232, 0.16);
+  border: 1px solid var(--dh-code-border);
   border-radius: var(--dh-r-panel);
   overflow: auto;
 }
@@ -798,9 +875,9 @@ main header h1,
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  background: rgba(0, 192, 232, 0.12);
+  background: var(--dh-wash-strong);
   color: var(--dh-cyan-300);
-  border: 1px solid rgba(0, 192, 232, 0.22);
+  border: 1px solid var(--dh-wash-border);
   border-radius: var(--dh-r-tag);
 }
 
@@ -864,7 +941,7 @@ main header h1,
   padding: var(--dh-s3) 16px;
   border: 1px solid var(--dh-line-strong);
   border-radius: var(--dh-r-panel);
-  background: linear-gradient(96deg, rgba(0, 192, 232, 0.1) 0%, rgba(0, 9, 14, 0) 82%);
+  background: var(--dh-alert-bg);
 }
 
 .dh-alert::before {
@@ -906,7 +983,7 @@ main header h1,
 .admonition[data-type] {
   border: 1px solid var(--dh-line-strong);
   border-radius: var(--dh-r-panel);
-  background: linear-gradient(96deg, rgba(0, 192, 232, 0.1) 0%, rgba(0, 9, 14, 0) 82%);
+  background: var(--dh-alert-bg);
   background-color: transparent;
   color: var(--dh-body);
   box-shadow: none;
@@ -967,7 +1044,7 @@ main header h1,
   font-size: 13.5px;
   line-height: 1.35;
   color: var(--dh-muted);
-  border-inline-start: 2px solid rgba(0, 192, 232, 0.2);
+  border-inline-start: 2px solid var(--dh-toc-idle);
   padding-inline-start: 10px;
   border-bottom: 0;
   text-decoration: none;
@@ -1043,6 +1120,20 @@ main header h1,
   -webkit-mask-image: linear-gradient(90deg, transparent 0%, transparent 46%, #000 70%);
   mask-image: linear-gradient(90deg, transparent 0%, transparent 46%, #000 70%);
 }
+
+.dh-lane-line {
+  stroke: var(--dh-lane);
+  stroke-width: 1;
+}
+
+.dh-lane-line--faint {
+  stroke: var(--dh-lane-faint);
+}
+
+.dh-dot--dim { fill: var(--dh-dot-dim); }
+.dh-dot--hot { fill: var(--dh-dot-hot); }
+
+.dh-mark__arc { stroke: var(--dh-brand-cyan); }
 
 .dh-hero__lanes {
   position: absolute;
@@ -1266,21 +1357,98 @@ footer a:hover {
   color: var(--dh-body);
 }
 
-/* -- 16 Light appearance — kept buildable (§06) --------------------------- */
+/* -- 16 Light appearance (§06) --------------------------------------------
+   The dark values live in :root, so a page that never gets the .dark class
+   (JavaScript off, or a light OS preference) lands here.
 
-html:not(.dark) body {
-  color: #0a2530;
-}
+   Two things are not a straight inversion:
+
+   1. The accent splits. #00C0E8 measures 2.2:1 on a light canvas, so it cannot
+      carry text or borders there. --dh-accent darkens to #0A7089 (5.5:1) for
+      anything with a contrast obligation, while --dh-accent-fill keeps the
+      bright cyan for filled buttons, where the ink sits on top of it.
+   2. The inset top highlight is a lighting cue that only reads on a dark
+      surface. On light it is removed and the hairline carries the edge, rather
+      than being replaced with a shadow the design system forbids. */
 
 html:not(.dark) {
-  --dh-body: #0a2530;
+  --dh-canvas: #fafdfe;
+  --dh-surface-card: linear-gradient(168deg, #ffffff 0%, #f5fbfd 46%, #edf6fa 100%);
+  --dh-surface-header: linear-gradient(96deg, rgba(0, 192, 232, 0.12) 0%, rgba(240, 250, 253, 0.86) 46%, rgba(255, 255, 255, 0.86) 100%);
+  --dh-surface-code: linear-gradient(158deg, #eef8fc 0%, #e1f1f7 100%);
+
+  --dh-line: rgba(1, 150, 179, 0.28);
+  --dh-line-card: rgba(1, 150, 179, 0.22);
+  --dh-line-strong: rgba(1, 150, 179, 0.38);
+  --dh-line-divider: rgba(0, 29, 43, 0.1);
+  --dh-inset-top: none;
+  --dh-rule: linear-gradient(90deg, #0a7089 0%, rgba(10, 112, 137, 0) 100%);
+
+  --dh-accent: #0a7089;
+  --dh-accent-fill: #00c0e8;
+  --dh-accent-hover: #0a4e5e;
+  --dh-cyan-300: #076b82;
+  --dh-cyan-400: #0a7089;
+
+  /* Text ladder. #4C7B8B is the light floor from the spec: 4.55:1 on this
+     canvas, which is why the canvas is #FAFDFE and not a deeper tint. */
   --dh-heading: #001d2b;
+  --dh-body: #0a2530;
   --dh-secondary: #2f5b6b;
-  --dh-muted: #4c7b8b; /* the light-appearance muted value */
+  --dh-muted: #3e6b79;
   --dh-meta: #4c7b8b;
-  --dh-link: #0196b3;
-  --dh-canvas: #f4fbfd;
+  --dh-link: #0a7089;
+
+  /* Status colours need their own light values — the dark ones are all under
+     3:1 on a light surface. */
+  --dh-allow: #0a7a42;
+  --dh-stepup: #8a6a00;
+  --dh-block: #b3382a;
+
+  --dh-select: rgba(0, 192, 232, 0.24);
+  --dh-wash: rgba(1, 150, 179, 0.1);
+  --dh-wash-strong: rgba(1, 150, 179, 0.14);
+  --dh-wash-border: rgba(1, 150, 179, 0.3);
+  --dh-tag-border: rgba(1, 150, 179, 0.32);
+  --dh-line-hover: rgba(1, 150, 179, 0.5);
+  --dh-code-border: rgba(1, 150, 179, 0.24);
+  --dh-toc-idle: rgba(1, 150, 179, 0.28);
+  --dh-alert-bg: linear-gradient(96deg, rgba(0, 192, 232, 0.16) 0%, rgba(255, 255, 255, 0) 82%);
+  --dh-link-underline: rgba(10, 112, 137, 0.45);
+
+  --dh-brand-cyan: #0196b3;
+
+  --dh-lane: rgba(1, 150, 179, 0.28);
+  --dh-lane-faint: rgba(1, 150, 179, 0.12);
+  --dh-dot-dim: rgba(1, 150, 179, 0.22);
+  --dh-dot-hot: #0a7089;
+
+  --dh-thumb-bg: linear-gradient(168deg, #ffffff 0%, #f2fafd 46%, #e6f3f9 100%);
+  --dh-thumb-grid: rgba(1, 150, 179, 0.14);
+  --dh-thumb-ghost: rgba(1, 150, 179, 0.28);
+  --dh-thumb-rule: rgba(1, 150, 179, 0.7);
+  --dh-thumb-line: #4c7b8b;
+  --dh-thumb-edge: #0a7089;
+  --dh-thumb-accent: #0196b3;
+  --dh-thumb-deep: #a5eafa;
+  --dh-thumb-ink: #001d2b;
+  --dh-thumb-plate: #ffffff;
 }
+
+/* Syntax highlighting follows the same rule: single hue, low contrast, and the
+   status colours stay reserved for verdicts. */
+html:not(.dark) .highlight .k,
+html:not(.dark) .highlight .kd,
+html:not(.dark) .highlight .kn,
+html:not(.dark) .highlight .kr,
+html:not(.dark) .highlight .kt { color: #0a5f75; }
+html:not(.dark) .highlight .s,
+html:not(.dark) .highlight .s1,
+html:not(.dark) .highlight .s2,
+html:not(.dark) .highlight .sb,
+html:not(.dark) .highlight .sd { color: #0a7089; }
+html:not(.dark) .highlight .nf,
+html:not(.dark) .highlight .nb { color: var(--dh-heading); }
 
 /* -- 17 Responsive (§04) -------------------------------------------------- */
 

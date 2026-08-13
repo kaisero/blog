@@ -1,6 +1,10 @@
 # dependencyhell.net — design system
 
-Version 1.2. The prose form of `dependencyhell.net Design System.dc (1).html`.
+Version 1.3. The prose form of `dependencyhell.net Design System.dc (1).html`.
+
+**Changed in 1.3** — the light appearance is built, not just buildable. The site
+follows the reader's OS preference with a manual override in the footer. See
+§07.
 
 **Changed in 1.2** — the homepage masthead is replaced by an animated hero
 (§05). The wordmark is now the page `h1`; the keywords moved down to the eyebrow.
@@ -148,6 +152,44 @@ the title row.
 - **Table** — ruled, dense, **no zebra**.
 - **Alert / advisory** — 3px cyan bar, hairline border, cyan-wash gradient.
 
+## 07 The light appearance
+
+Dark values live in `:root`; `html:not(.dark)` overrides every
+appearance-dependent token. A page that never receives the `.dark` class — no
+JavaScript, or a light OS preference — therefore lands in light.
+
+Two things are **not** a straight inversion:
+
+1. **The accent splits.** `#00C0E8` measures 2.2:1 on a light canvas, so it
+   cannot carry text or borders there. `--dh-accent` darkens to `#0A7089`
+   (5.5:1) for anything with a contrast obligation, while `--dh-accent-fill`
+   keeps the bright cyan for filled buttons, where ink sits on top of it.
+   `--dh-brand-cyan` is a third role: the logo stroke, which only darkens enough
+   (`#0196B3`) to clear the 3:1 non-text floor.
+2. **The inset top highlight is removed.** It is a lighting cue that only reads
+   on a dark surface. On light the hairline carries the edge — it is *not*
+   replaced by a shadow, which §01 forbids.
+
+Status colours get their own light values (`#0A7A42`, `#8A6A00`, `#B3382A`); the
+dark ones are all under 3:1 on a light surface.
+
+Light text ladder — heading `#001D2B`, body `#0A2530`, secondary `#2F5B6B`,
+muted `#3E6B79`, meta `#4C7B8B`, link `#0A7089`. The canvas is `#FAFDFE` rather
+than a deeper tint precisely so `#4C7B8B` clears 4.5:1 (it measures 4.55:1).
+
+Measured minimums: **6.26:1** in dark, **4.55:1** in light.
+
+**Art carries no colour of its own.** The hero lanes, dot field and every card
+thumbnail resolve their strokes and fills to tokens, which is why SVG thumbnails
+are inlined rather than referenced with `<img>` — a stylesheet cannot reach
+inside an image.
+
+**Config trap.** `autoSwitchAppearance = true` only follows the OS if
+`defaultAppearance = "light"`. The theme's `appearance.js` adds `.dark`
+unconditionally when the default is `dark` and no choice is stored, and its
+auto-switch branch only ever *adds* dark on load — so a light-preferring visitor
+would still get dark.
+
 ## 06 Rules
 
 **Do**
@@ -174,4 +216,4 @@ the title row.
   measures **6.26:1**.
 - Focus ring: 2px cyan-500, offset 2px. **Never removed.**
 - Logo mark ≥ 20px; drop the core dot at ≤ 32px.
-- The light appearance must stay buildable: muted = `#4C7B8B`.
+- The light appearance is held to the same floors; see §07.

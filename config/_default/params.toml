@@ -5,8 +5,12 @@
 # DESIGN-SYSTEM.md and must not be changed without changing the spec.
 
 colorScheme = "dependencyhell"  # design system: assets/css/schemes/dependencyhell.css
-defaultAppearance = "dark"      # design system: dark-first
-autoSwitchAppearance = false    # design system: no auto-switch
+# Must be "light" for autoSwitchAppearance to actually follow the OS: the theme's
+# appearance.js adds .dark unconditionally when defaultAppearance is "dark" and no
+# choice is stored, and its auto-switch branch only ever *adds* dark on load. With
+# "light" the OS query is what decides, which is the intended behaviour here.
+defaultAppearance = "light"
+autoSwitchAppearance = true     # follow the reader's system setting
 
 enableA11y = true
 enableSearch = true
@@ -38,7 +42,7 @@ fingerprintAlgorithm = "sha512"
   showMenu = true
   showCopyright = true
   showThemeAttribution = true
-  showAppearanceSwitcher = false  # design system: no auto-switch, dark only
+  showAppearanceSwitcher = true
   showScrollToTop = true
 
 [homepage]

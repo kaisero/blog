@@ -13,6 +13,7 @@
 {{ $sameYear := eq (.Date.Format "2006") (now.Format "2006") }}
 
 {{ $featuredURL := "" }}
+{{ $featuredSVG := "" }}
 {{ if not .Params.hideFeatureImage }}
   {{ $featured := "" }}
   {{ with .Params.featureimage }}
@@ -26,9 +27,16 @@
     {{ end }}
   {{ end }}
   {{ with $featured }}
-    {{ $featuredURL = .RelPermalink }}
-    {{ if not (or $disableOpt (eq .MediaType.SubType "svg")) }}
-      {{ $featuredURL = (.Resize "800x webp q90").RelPermalink }}
+    {{ if eq .MediaType.SubType "svg" }}
+      {{/* Inlined rather than <img>: an image is a closed document, so the
+           stylesheet cannot reach inside it and the art could not follow the
+           light/dark appearance. Inlining costs ~1 KB and buys theming. */}}
+      {{ $featuredSVG = .Content }}
+    {{ else }}
+      {{ $featuredURL = .RelPermalink }}
+      {{ if not $disableOpt }}
+        {{ $featuredURL = (.Resize "800x webp q90").RelPermalink }}
+      {{ end }}
     {{ end }}
   {{ end }}
 {{ end }}
@@ -43,8 +51,12 @@
     aria-label="{{ .Title | plainify }}"></a>
 
   <div class="dh-card-link__thumb" style="--dh-thumb-ratio: {{ $ratio }}">
-    {{ with $featuredURL }}
-      <img src="{{ . }}" alt="" role="presentation" loading="lazy" decoding="async" />
+    {{ with $featuredSVG }}
+      {{ . | safeHTML }}
+    {{ else }}
+      {{ with $featuredURL }}
+        <img src="{{ . }}" alt="" role="presentation" loading="lazy" decoding="async" />
+      {{ end }}
     {{ end }}
   </div>
 

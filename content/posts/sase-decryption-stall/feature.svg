@@ -1,41 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400" role="img" aria-label="Traffic lanes through an inspection point, with one lane bypassing it">
-  <defs>
-    <linearGradient id="bg3" x1="0" y1="0" x2="0.22" y2="1">
-      <stop offset="0" stop-color="#011A26"/>
-      <stop offset="0.46" stop-color="#00090E"/>
-      <stop offset="1" stop-color="#000508"/>
-    </linearGradient>
-    <linearGradient id="fade3" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#00C0E8" stop-opacity="0.9"/>
-      <stop offset="1" stop-color="#00C0E8" stop-opacity="0"/>
-    </linearGradient>
-  </defs>
-
-  <rect width="600" height="400" fill="url(#bg3)"/>
-
-  <g stroke="#00C0E8" stroke-opacity="0.07" stroke-width="1">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" class="dh-thumb" role="img" aria-label="Traffic lanes through an inspection point, with one lane bypassing it">
+  <g class="t-grid">
     <path d="M0 80.5H600M0 160.5H600M0 240.5H600M0 320.5H600"/>
     <path d="M120.5 0V400M240.5 0V400M360.5 0V400M480.5 0V400"/>
   </g>
 
   <!-- inspected lanes: they pass through the decryption point -->
-  <g stroke="#00C0E8" stroke-width="3" fill="none">
+  <g class="t-accent" stroke-width="3" fill="none">
     <path d="M40 128 H560"/>
     <path d="M40 200 H560"/>
     <path d="M40 272 H560"/>
   </g>
 
   <!-- the bypass: routed around, never opened -->
-  <path d="M40 336 H236 C282 336 282 366 328 366 H560" fill="none"
-        stroke="#7FA8B5" stroke-width="3" stroke-dasharray="10 8"/>
+  <path class="t-line" d="M40 336 H236 C282 336 282 366 328 366 H560" fill="none"
+        stroke-width="3" stroke-dasharray="10 8"/>
 
   <!-- the decryption point -->
-  <rect x="270" y="92" width="60" height="216" fill="#000508" stroke="#00C0E8" stroke-width="2" rx="6"/>
-  <g stroke="#E8F6FA" stroke-width="3">
+  <rect class="t-plate t-accent" x="270" y="92" width="60" height="216" stroke-width="2" rx="6"/>
+  <g class="t-ink-stroke" stroke-width="3">
     <path d="M288 190 H312"/>
     <path d="M288 200 H312"/>
     <path d="M288 210 H312"/>
   </g>
 
-  <rect x="48" y="60" width="120" height="1" fill="url(#fade3)"/>
+  <rect class="t-rule" x="48" y="60" width="120" height="1"/>
 </svg>

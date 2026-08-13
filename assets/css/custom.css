@@ -1,0 +1,1033 @@
+/* ==========================================================================
+   dependencyhell.net — design system implementation
+   Normative source: DESIGN-SYSTEM.md. Every value below traces to a section
+   there. If you want to change a value, change the spec first.
+
+   This file is deliberately UNLAYERED. Blowfish ships its Tailwind build
+   entirely inside @layer theme/base/components/utilities, and unlayered rules
+   beat layered ones regardless of specificity — so nothing here needs
+   !important, and low-specificity selectors are safe.
+   ========================================================================== */
+
+/* -- 00 Fonts — self-hosted, latin subset, variable ----------------------- */
+
+@font-face {
+  font-family: "Figtree";
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+  src: url("/fonts/figtree-latin-var.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono-latin-var.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* -- 01 Tokens ------------------------------------------------------------ */
+
+:root {
+  --dh-sans: "Figtree", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --dh-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Surfaces (§01) */
+  --dh-canvas: #000406;
+  --dh-surface-card: linear-gradient(168deg, #011a26 0%, #00090e 46%, #000508 100%);
+  --dh-surface-header: linear-gradient(96deg, rgba(0, 192, 232, 0.11) 0%, rgba(1, 26, 38, 0.72) 46%, rgba(0, 8, 14, 0.72) 100%);
+  --dh-surface-code: linear-gradient(158deg, #01202e 0%, #00070c 100%);
+
+  /* Hairlines — never grey boxes (§01) */
+  --dh-line: rgba(0, 192, 232, 0.15);
+  --dh-line-card: rgba(0, 192, 232, 0.14);
+  --dh-line-strong: rgba(0, 192, 232, 0.2);
+  --dh-line-divider: rgba(232, 246, 250, 0.08);
+  --dh-inset-top: inset 0 1px 0 rgba(0, 192, 232, 0.16);
+  --dh-rule: linear-gradient(90deg, #00c0e8 0%, rgba(0, 192, 232, 0) 100%);
+
+  /* Radius (§01) */
+  --dh-r-card: 16px;
+  --dh-r-panel: 10px;
+  --dh-r-button: 6px;
+  --dh-r-tag: 5px;
+
+  /* Colour (§02) */
+  --dh-accent: #00c0e8;
+  --dh-accent-hover: #0196b3;
+  --dh-cyan-300: #7fe4f7;
+  --dh-cyan-400: #56d6f4;
+  --dh-ink: #001d2b; /* text on a cyan fill */
+
+  --dh-heading: #e8f6fa;
+  --dh-body: #c4e2ec;
+  --dh-secondary: #a9ccd8;
+  --dh-muted: #7fa8b5;
+  --dh-meta: #6b94a3;
+  --dh-link: #56d6f4;
+
+  --dh-allow: #00cc66;
+  --dh-stepup: #ffcb06;
+  --dh-block: #dd6652;
+
+  /* Spacing scale (§04) */
+  --dh-s1: 4px;
+  --dh-s2: 8px;
+  --dh-s3: 14px;
+  --dh-s4: 20px;
+  --dh-s5: 28px;
+  --dh-s6: 40px;
+
+  /* Layout (§04) */
+  --dh-pad: 40px;
+  --dh-measure: 74ch;
+  --dh-measure-summary: 66ch;
+  --dh-toc-w: 182px;
+  --dh-date-col: 96px;
+
+  --dh-transition: 150ms;
+}
+
+@media (max-width: 1024px) {
+  :root { --dh-pad: 24px; }
+}
+@media (max-width: 640px) {
+  :root { --dh-pad: 18px; }
+}
+
+/* -- 02 Base -------------------------------------------------------------- */
+
+html {
+  background: var(--dh-canvas);
+}
+
+body {
+  font-family: var(--dh-sans);
+  font-size: 16px;
+  line-height: 1.62;
+  color: var(--dh-body);
+  background: var(--dh-canvas);
+  padding-inline: var(--dh-pad);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Hover is colour only, 150ms — never layout (§06). */
+a,
+button,
+.dh-tag,
+.dh-btn {
+  transition: color var(--dh-transition) ease, border-color var(--dh-transition) ease,
+    background-color var(--dh-transition) ease;
+}
+
+/* Focus ring: 2px cyan-500, offset 2px. Never removed (§06). */
+:focus-visible {
+  outline: 2px solid var(--dh-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* No drop shadows anywhere (§01). Elevation is the inset cyan top edge. */
+.thumbnail-shadow,
+[class*="shadow-"] {
+  box-shadow: none;
+}
+
+::selection {
+  background: rgba(0, 192, 232, 0.28);
+  color: var(--dh-heading);
+}
+
+/* -- 03 Typography -------------------------------------------------------- */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--dh-sans);
+  color: var(--dh-heading);
+  text-wrap: balance;
+}
+
+/* Anything a machine produced is mono (§06). */
+time,
+.dh-meta,
+.dh-eyebrow,
+.dh-readingtime,
+.dh-tag,
+.dh-btn {
+  font-family: var(--dh-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.dh-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dh-accent);
+}
+
+.dh-meta {
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dh-meta);
+}
+
+/* -- 04 Links ------------------------------------------------------------- */
+
+/* Body links only. Post rows and tags live inside .prose on the article and
+   list layouts, and they carry their own link language (§05) — a row title is
+   heading-coloured until hover, and a tag is a bordered mono chip. */
+.prose a:not(.dh-row__link):not(.dh-tag):not(.dh-btn),
+.dh-prose a {
+  color: var(--dh-link);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(1, 150, 179, 0.6);
+}
+
+.prose a:not(.dh-row__link):not(.dh-tag):not(.dh-btn):hover,
+.dh-prose a:hover {
+  color: #00c0e8;
+  border-bottom-color: var(--dh-accent);
+}
+
+/* -- 05 Header ------------------------------------------------------------ */
+
+.dh-header {
+  display: flex;
+  align-items: center;
+  gap: var(--dh-s2);
+  width: 100%;
+  min-height: 54px;
+}
+
+.dh-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  border-bottom: 0;
+  color: var(--dh-heading);
+}
+
+.dh-brand__mark {
+  flex: none;
+  color: var(--dh-heading);
+}
+
+.dh-brand__word {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  color: var(--dh-heading);
+  white-space: nowrap;
+}
+
+.dh-brand__hell {
+  font-weight: 800;
+  color: var(--dh-accent);
+}
+
+.dh-brand__tld {
+  color: var(--dh-muted);
+}
+
+/* Header bar: blurred, hairline, single-hue gradient (§05). */
+#menu-blur {
+  background: var(--dh-surface-header);
+  border-bottom: 1px solid var(--dh-line);
+  box-shadow: none;
+}
+
+/* Active nav item = full-strength text + 2px cyan underline (§05). */
+.main-menu .active {
+  color: var(--dh-heading);
+  text-decoration: none;
+  border-bottom: 2px solid var(--dh-accent);
+  padding-bottom: 3px;
+}
+
+.main-menu a {
+  color: var(--dh-secondary);
+  border-bottom: 0;
+}
+
+.main-menu a:hover {
+  color: var(--dh-heading);
+}
+
+/* -- 06 Post row — the workhorse (§05) ------------------------------------ */
+
+.dh-row {
+  display: grid;
+  grid-template-columns: var(--dh-date-col) 1fr;
+  gap: 18px;
+  padding-bottom: var(--dh-s4);
+  border-bottom: 1px solid var(--dh-line-divider);
+}
+
+.dh-row:last-child {
+  border-bottom: 0;
+}
+
+.dh-row__date {
+  font-family: var(--dh-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--dh-meta);
+  padding-top: var(--dh-s1);
+  font-variant-numeric: tabular-nums;
+}
+
+.dh-row__year {
+  display: block;
+  opacity: 0.72;
+}
+
+.dh-row__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dh-s2);
+  min-width: 0;
+}
+
+.dh-row__title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.dh-row__link {
+  color: var(--dh-heading);
+  border-bottom: 0;
+  text-decoration: none;
+}
+
+/* Hover: title goes cyan-400, nothing else moves (§05). */
+.dh-row__link:hover {
+  color: var(--dh-cyan-400);
+}
+
+.dh-row__ext {
+  font-size: 12px;
+  color: var(--dh-meta);
+  vertical-align: top;
+}
+
+.dh-row__summary {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--dh-secondary);
+  max-width: var(--dh-measure-summary);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.dh-row__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--dh-s2);
+  padding-top: 2px;
+}
+
+/* The list container owns the rhythm — gap on the parent, never child margins. */
+.dh-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dh-s4);
+}
+
+/* Neutralise Blowfish's own list spacing so the rows sit on our scale. */
+section.space-y-10 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: var(--dh-s4);
+}
+
+/* -- 07 Tags, reading time, buttons (§05) --------------------------------- */
+
+.dh-tag {
+  display: inline-block;
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dh-muted);
+  background: transparent; /* transparent fill always */
+  border: 1px solid rgba(0, 192, 232, 0.18);
+  border-radius: var(--dh-r-tag);
+  padding: 4px 8px;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.dh-tag:hover {
+  color: var(--dh-cyan-400);
+  border-color: var(--dh-accent);
+}
+
+.dh-tag--draft {
+  color: var(--dh-stepup);
+  border-color: rgba(255, 203, 6, 0.4);
+}
+
+.dh-readingtime {
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  color: var(--dh-meta);
+  margin-inline-start: var(--dh-s1);
+}
+
+.dh-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: var(--dh-r-button);
+  background: var(--dh-accent);
+  color: var(--dh-ink);
+  border: 0;
+  border-bottom: 0;
+  text-decoration: none;
+}
+
+.dh-btn:hover {
+  background: var(--dh-accent-hover);
+  color: var(--dh-ink);
+}
+
+/* Stroke variant keeps the same box by trading 2px padding for the border. */
+.dh-btn--stroke {
+  background: transparent;
+  color: var(--dh-accent);
+  border: 2px solid var(--dh-accent);
+  padding: 0 18px;
+}
+
+.dh-btn--stroke:hover {
+  background: transparent;
+  color: var(--dh-cyan-400);
+  border-color: var(--dh-cyan-400);
+}
+
+/* -- 08 Cards & panels (§01) ---------------------------------------------- */
+
+.dh-card {
+  background: var(--dh-surface-card);
+  border: 1px solid var(--dh-line-card);
+  border-radius: var(--dh-r-card);
+  box-shadow: var(--dh-inset-top);
+  padding: 24px 26px;
+}
+
+.dh-rule {
+  width: 56px;
+  height: 1px;
+  background: var(--dh-rule);
+  border: 0;
+}
+
+/* -- 09 Article prose ----------------------------------------------------- */
+
+.prose {
+  --tw-prose-invert-body: #c4e2ec;
+  --tw-prose-invert-headings: #e8f6fa;
+  --tw-prose-invert-lead: #a9ccd8;
+  --tw-prose-invert-links: #56d6f4;
+  --tw-prose-invert-bold: #e8f6fa;
+  --tw-prose-invert-counters: #6b94a3;
+  --tw-prose-invert-bullets: #0196b3;
+  --tw-prose-invert-hr: rgba(0, 192, 232, 0.15);
+  --tw-prose-invert-quotes: #a9ccd8;
+  --tw-prose-invert-quote-borders: #00c0e8;
+  --tw-prose-invert-captions: #7fa8b5;
+  --tw-prose-invert-code: #7fe4f7;
+  --tw-prose-invert-pre-code: #a9ccd8;
+  --tw-prose-invert-pre-bg: #01202e;
+  --tw-prose-invert-th-borders: rgba(0, 192, 232, 0.15);
+  --tw-prose-invert-td-borders: rgba(232, 246, 250, 0.08);
+  font-size: 16px;
+  line-height: 1.62;
+}
+
+/* Measure — 74ch prose (§04).
+   Targets the content column by `min-w-0`, which is the one class Blowfish puts
+   on it in every layout: list.html uses `max-w-prose w-full`, single.html uses
+   `max-w-fit`. Without this cap the article column expands to fill the row and
+   shoves the TOC against the container edge. The TOC wrapper has no `min-w-0`,
+   so its own fixed width is untouched. */
+.prose > .min-w-0,
+.article-content {
+  max-width: var(--dh-measure);
+}
+
+.prose p {
+  color: var(--dh-body);
+  text-wrap: pretty;
+}
+
+/* Article H1 — 34/37, 700, -.04em (§03) */
+main header h1,
+.prose h1 {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+  color: var(--dh-heading);
+}
+
+/* H2 — 23/28, preceded by the 56x1 cyan rule (§03).
+   Scoped away from the two h2s that are not prose headings: the post-row title
+   (22px, §05) and the section head, which already renders the rule as its own
+   <hr class="dh-rule"> element. */
+.prose h2:not(.dh-row__title):not(.dh-section-title) {
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.22;
+  margin-top: var(--dh-s5);
+  margin-bottom: var(--dh-s3);
+}
+
+.prose h2:not(.dh-row__title):not(.dh-section-title)::before {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 1px;
+  background: var(--dh-rule);
+  margin-bottom: var(--dh-s3);
+}
+
+.prose h3 {
+  font-size: 18.5px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  margin-top: var(--dh-s4);
+  margin-bottom: var(--dh-s2);
+}
+
+/* No italics outside citations (§03). */
+.prose em {
+  font-style: normal;
+  color: var(--dh-heading);
+}
+
+.prose cite,
+.prose blockquote em {
+  font-style: italic;
+}
+
+/* Pull quote — 2px cyan rule, upright (§05) */
+.prose blockquote {
+  border-inline-start: 2px solid var(--dh-accent);
+  padding-inline-start: 18px;
+  color: var(--dh-secondary);
+  font-size: 16.5px;
+  line-height: 1.55;
+  font-style: normal;
+  font-weight: 400;
+  quotes: none;
+  text-wrap: pretty;
+}
+
+.prose blockquote p::before,
+.prose blockquote p::after {
+  content: none;
+}
+
+.prose hr {
+  border-color: var(--dh-line);
+}
+
+/* -- 10 Code (§05) -------------------------------------------------------- */
+
+.prose code {
+  font-family: var(--dh-mono);
+  font-size: 13px;
+  color: var(--dh-cyan-300);
+  background: rgba(0, 192, 232, 0.1);
+  border: 1px solid rgba(0, 192, 232, 0.22);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-weight: 400;
+}
+
+.prose code::before,
+.prose code::after {
+  content: none;
+}
+
+/* The panel is the outer wrapper so that the line-number gutter and the code
+   share one border. Chroma nests two <pre> elements inside a table when
+   lineNumbersInTable is on, so the inner ones must stay completely bare. */
+.prose pre {
+  font-family: var(--dh-mono);
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--dh-secondary);
+  background: var(--dh-surface-code);
+  border: 1px solid rgba(0, 192, 232, 0.16);
+  border-radius: var(--dh-r-panel);
+  padding: 16px 18px;
+}
+
+.prose .highlight {
+  background: var(--dh-surface-code);
+  border: 1px solid rgba(0, 192, 232, 0.16);
+  border-radius: var(--dh-r-panel);
+  overflow: auto;
+}
+
+.prose .highlight .chroma,
+.prose .highlight pre {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.prose pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* Line numbers live in their own cell, so copying the code never picks
+   them up (§05). */
+.prose .highlight table.lntable {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  overflow: visible;
+}
+
+.prose .highlight table.lntable td.lntd {
+  padding: 0;
+  border: 0;
+  vertical-align: top;
+}
+
+.prose .highlight table.lntable td.lntd:first-child {
+  width: 1%;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.prose .highlight table.lntable td.lntd:first-child pre {
+  padding: 16px 0 16px 18px;
+}
+
+.prose .highlight table.lntable td.lntd:last-child pre {
+  padding: 16px 18px 16px 14px;
+}
+
+.prose .highlight:not(:has(table.lntable)) pre {
+  padding: 16px 18px;
+}
+
+.highlight .lnt,
+.highlight .ln {
+  color: var(--dh-meta);
+  user-select: none;
+}
+
+.copy-button {
+  font-family: var(--dh-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(0, 192, 232, 0.12);
+  color: var(--dh-cyan-300);
+  border: 1px solid rgba(0, 192, 232, 0.22);
+  border-radius: var(--dh-r-tag);
+}
+
+.copy-button:hover,
+.copy-button:focus {
+  background: var(--dh-accent);
+  color: var(--dh-ink);
+}
+
+/* Syntax highlighting stays single-hue and low-contrast: code is read as prose,
+   and the status colours are reserved for verdicts. */
+.highlight .k, .highlight .kd, .highlight .kn, .highlight .kr, .highlight .kt { color: var(--dh-cyan-400); }
+.highlight .s, .highlight .s1, .highlight .s2, .highlight .sb, .highlight .sd { color: var(--dh-cyan-300); }
+.highlight .c, .highlight .c1, .highlight .cm, .highlight .cs { color: var(--dh-meta); font-style: normal; }
+.highlight .nf, .highlight .nb { color: var(--dh-heading); }
+.highlight .m, .highlight .mi, .highlight .mf { color: var(--dh-secondary); }
+.highlight .o, .highlight .p { color: var(--dh-muted); }
+
+/* -- 11 Table — ruled, dense, no zebra (§05) ------------------------------ */
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+}
+
+.prose thead th {
+  font-family: var(--dh-mono);
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dh-muted);
+  text-align: start;
+  padding: 9px 14px 9px 0;
+  border-bottom: 1px solid var(--dh-line);
+}
+
+.prose tbody td {
+  padding: 9px 14px 9px 0;
+  border-bottom: 1px solid var(--dh-line-divider);
+  color: var(--dh-body);
+  background: transparent; /* no zebra */
+}
+
+.prose tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* Status colours carry verdicts inside content only (§02). */
+.dh-allow { color: var(--dh-allow); }
+.dh-stepup { color: var(--dh-stepup); }
+.dh-block { color: var(--dh-block); }
+
+/* -- 12 Alert / advisory (§05) -------------------------------------------- */
+
+.dh-alert {
+  display: flex;
+  align-items: stretch;
+  gap: var(--dh-s3);
+  padding: var(--dh-s3) 16px;
+  border: 1px solid var(--dh-line-strong);
+  border-radius: var(--dh-r-panel);
+  background: linear-gradient(96deg, rgba(0, 192, 232, 0.1) 0%, rgba(0, 9, 14, 0) 82%);
+}
+
+.dh-alert::before {
+  content: "";
+  width: 3px;
+  border-radius: 2px;
+  background: var(--dh-accent);
+  flex: none;
+}
+
+.dh-alert__content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.dh-alert__label {
+  font-family: var(--dh-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dh-accent);
+}
+
+.dh-alert__body {
+  font-size: 14.5px;
+  color: var(--dh-body);
+}
+
+.dh-alert__body > :first-child { margin-top: 0; }
+.dh-alert__body > :last-child { margin-bottom: 0; }
+
+/* Blowfish's admonition component ships a fifteen-hue palette. The design
+   system allows exactly one accent and treats status colours as content, never
+   chrome — so every admonition type speaks the same cyan advisory language.
+   Type is carried by the title text and icon, not by a colour. */
+.admonition,
+.admonition[data-type] {
+  border: 1px solid var(--dh-line-strong);
+  border-radius: var(--dh-r-panel);
+  background: linear-gradient(96deg, rgba(0, 192, 232, 0.1) 0%, rgba(0, 9, 14, 0) 82%);
+  background-color: transparent;
+  color: var(--dh-body);
+  box-shadow: none;
+}
+
+.admonition-title,
+.admonition[data-type] .admonition-title {
+  font-family: var(--dh-mono);
+  font-size: 9.5px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dh-accent);
+  background: transparent;
+  border: 0;
+}
+
+.admonition-content {
+  color: var(--dh-body);
+}
+
+/* -- 13 Table of contents — 182px, sticky, 2px indicator (§05) ------------ */
+
+.toc {
+  width: var(--dh-toc-w);
+}
+
+.toc > details > div,
+.toc .min-w-\[220px\] {
+  min-width: 0;
+  border: 0;
+  padding-inline-start: 0;
+  margin-inline-start: 0;
+}
+
+.toc summary {
+  font-family: var(--dh-mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dh-meta);
+  background: transparent;
+  padding-inline-start: 0;
+  margin-inline-start: 0;
+}
+
+.toc ul {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+}
+
+.toc a {
+  display: block;
+  font-size: 13.5px;
+  line-height: 1.35;
+  color: var(--dh-muted);
+  border-inline-start: 2px solid rgba(0, 192, 232, 0.2);
+  padding-inline-start: 10px;
+  border-bottom: 0;
+  text-decoration: none;
+}
+
+.toc a:hover {
+  color: var(--dh-secondary);
+}
+
+.toc a.active {
+  color: var(--dh-accent);
+  border-inline-start-color: var(--dh-accent);
+  text-decoration: none;
+}
+
+/* Article grid — 1fr content · 32px gap · 182px TOC (§04).
+   Blowfish pushes the TOC column to the container edge with `lg:ms-auto`,
+   which leaves a dead gutter between the prose and the TOC. The spec wants the
+   two columns adjacent, so the auto margin is cancelled and the gap governs. */
+@media (min-width: 1024px) {
+  .prose.lg\:flex-row {
+    gap: 32px;
+    align-items: flex-start;
+  }
+
+  .prose.lg\:flex-row > .lg\:ms-auto,
+  .prose.lg\:flex-row > div:has(.toc) {
+    margin-inline-start: 0;
+    padding-inline-start: 0;
+    flex: none;
+    width: var(--dh-toc-w);
+    max-width: var(--dh-toc-w);
+  }
+
+  .prose.lg\:flex-row > .min-w-0 {
+    flex: 1 1 auto;
+  }
+}
+
+/* -- 13b Homepage masthead (§03, §04) ------------------------------------- */
+
+.dh-masthead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dh-s3);
+  padding-bottom: var(--dh-s6);
+  border-bottom: 1px solid var(--dh-line);
+}
+
+.dh-masthead__lockup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dh-masthead__mark {
+  flex: none;
+}
+
+/* Display — 40/41, 700, -.04em (§03) */
+.dh-masthead__word {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+  margin: 0;
+  color: var(--dh-heading);
+}
+
+.dh-masthead__dek {
+  font-size: 20px;
+  line-height: 1.5;
+  color: var(--dh-secondary);
+  max-width: 600px;
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.dh-masthead__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dh-s2);
+  padding-top: var(--dh-s1);
+}
+
+.dh-home-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dh-s5);
+  padding-top: var(--dh-s6);
+}
+
+.dh-section-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dh-s2);
+}
+
+.dh-section-title {
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.dh-home-list__more {
+  padding-top: var(--dh-s1);
+}
+
+.dh-related {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dh-s5);
+  margin-top: var(--dh-s6);
+  padding-top: var(--dh-s6);
+  border-top: 1px solid var(--dh-line);
+}
+
+@media (max-width: 640px) {
+  .dh-masthead__word { font-size: 30px; }
+  .dh-masthead__dek { font-size: 17px; }
+}
+
+/* -- 14 Footer (§05) ------------------------------------------------------ */
+
+footer {
+  border-top: 1px solid var(--dh-line);
+  margin-top: var(--dh-s6);
+  padding-top: 16px;
+  font-size: 13px;
+  color: var(--dh-meta);
+}
+
+footer a {
+  color: var(--dh-muted);
+  border-bottom: 0;
+}
+
+footer a:hover {
+  color: var(--dh-cyan-400);
+}
+
+/* -- 15 Search ------------------------------------------------------------ */
+
+#search-query {
+  font-family: var(--dh-sans);
+  background: var(--dh-surface-code);
+  border: 1px solid var(--dh-line-strong);
+  border-radius: var(--dh-r-panel);
+  color: var(--dh-body);
+}
+
+#search-results {
+  color: var(--dh-body);
+}
+
+/* -- 16 Light appearance — kept buildable (§06) --------------------------- */
+
+html:not(.dark) body {
+  color: #0a2530;
+}
+
+html:not(.dark) {
+  --dh-body: #0a2530;
+  --dh-heading: #001d2b;
+  --dh-secondary: #2f5b6b;
+  --dh-muted: #4c7b8b; /* the light-appearance muted value */
+  --dh-meta: #4c7b8b;
+  --dh-link: #0196b3;
+  --dh-canvas: #f4fbfd;
+}
+
+/* -- 17 Responsive (§04) -------------------------------------------------- */
+
+/* Below 900px the date column stacks onto the title row. */
+@media (max-width: 900px) {
+  .dh-row {
+    grid-template-columns: 1fr;
+    gap: var(--dh-s2);
+  }
+
+  .dh-row__date {
+    padding-top: 0;
+  }
+
+  .dh-row__year {
+    display: inline;
+    margin-inline-start: var(--dh-s1);
+  }
+
+  .toc {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  main header h1,
+  .prose h1 {
+    font-size: 28px;
+  }
+
+  .dh-row__title {
+    font-size: 19px;
+  }
+}
+
+@media print {
+  .dh-row { break-inside: avoid; }
+}

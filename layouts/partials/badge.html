@@ -1,0 +1,9 @@
+{{/* Badge — used by Blowfish for taxonomy terms and the draft label.
+  Overrides the theme partial so every badge speaks the tag language from
+  DESIGN-SYSTEM.md §05: mono, uppercase, transparent fill, cyan hairline.
+*/}}
+{{ $linkTitle := . }}
+{{ if reflect.IsMap . }}
+  {{ $linkTitle = .linkTitle }}
+{{ end }}
+<span class="dh-tag">{{ $linkTitle }}</span>

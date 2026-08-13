@@ -1,0 +1,31 @@
+# -- Markup --
+# These settings are required for the theme to function.
+
+[goldmark]
+  [goldmark.parser]
+    wrapStandAloneImageWithinParagraph = false
+
+    [goldmark.parser.attribute]
+      block = true
+
+  [goldmark.renderer]
+    unsafe = true
+
+  [goldmark.extensions]
+    [goldmark.extensions.passthrough]
+      enable = true
+      [goldmark.extensions.passthrough.delimiters]
+        block = [['\[', '\]'], ['$$', '$$']]
+        inline = [['\(', '\)']]
+
+[highlight]
+  noClasses = false
+  # design system §05: code blocks carry line numbers in a gutter
+  lineNos = true
+  lineNumbersInTable = true
+  tabWidth = 2
+
+# Design system: the article TOC lists H2s and H3s only.
+[tableOfContents]
+  startLevel = 2
+  endLevel = 3

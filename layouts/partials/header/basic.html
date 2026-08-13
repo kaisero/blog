@@ -1,0 +1,51 @@
+{{/* Site header.
+  Overrides the Blowfish partial of the same name so the wordmark is real text
+  (selectable, uses Figtree, respects the colour roles) rather than a logo image.
+
+  DESIGN-SYSTEM.md §05: mark at 26px with the core dot dropped (the <=32px rule),
+  wordmark at 17px / -.035em, header height 54px.
+*/}}
+
+<div class="main-menu dh-header">
+  <a href="{{ "" | relLangURL }}" class="dh-brand" aria-label="{{ site.Title }} — home">
+    <svg class="dh-brand__mark" width="26" height="26" viewBox="0 0 100 100" fill="none" aria-hidden="true" focusable="false">
+      <g transform="translate(-9,0)">
+        <path d="M62.9 65.3 A20 20 0 1 1 62.9 34.7" fill="none" stroke="currentColor" stroke-width="13" />
+        <path d="M74.4 20.9 A38 38 0 0 1 74.4 79.1" fill="none" stroke="#00C0E8" stroke-width="13" />
+      </g>
+    </svg>
+    <span class="dh-brand__word"
+      >dependency<span class="dh-brand__hell">hell</span><span class="dh-brand__tld">.net</span></span
+    >
+  </a>
+
+  <div class="flex items-center ms-auto">
+    <div class="hidden md:flex">
+      {{ partial "header/components/desktop-menu.html" . }}
+    </div>
+    <div class="flex md:hidden">
+      {{ partial "header/components/mobile-menu.html" . }}
+    </div>
+  </div>
+</div>
+
+{{ if site.Params.highlightCurrentMenuArea }}
+  <script>
+    (function () {
+      var mainmenu = document.querySelector(".main-menu");
+      if (!mainmenu) return;
+
+      var path = window.location.pathname;
+      // Exclude the wordmark: on the homepage its href also matches, and the
+      // design system reserves the 2px underline for the active *nav* item.
+      var links = mainmenu.querySelectorAll('a[href="' + path + '"]:not(.dh-brand)');
+
+      links.forEach(function (link) {
+        var targets = link.querySelectorAll("span");
+        targets.forEach(function (el) {
+          el.classList.add("active");
+        });
+      });
+    })();
+  </script>
+{{ end }}

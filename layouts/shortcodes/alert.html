@@ -1,0 +1,16 @@
+{{/* Alert / advisory.
+  Overrides the Blowfish shortcode, which renders a filled primary-900 card with
+  a drop shadow. DESIGN-SYSTEM.md §01 forbids both: depth is a low-alpha cyan
+  gradient behind a hairline, and there are no drop shadows anywhere.
+
+  Usage:  {{< alert >}}body{{< /alert >}}
+          {{< alert label="Lab advisory" >}}body{{< /alert >}}
+*/}}
+{{ $label := cond .IsNamedParams (.Get "label") "" }}
+
+<div class="dh-alert">
+  <div class="dh-alert__content">
+    {{ with $label }}<div class="dh-alert__label">{{ . }}</div>{{ end }}
+    <div class="dh-alert__body">{{ .Inner | markdownify }}</div>
+  </div>
+</div>

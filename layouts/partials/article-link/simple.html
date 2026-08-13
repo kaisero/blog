@@ -1,0 +1,53 @@
+{{/* Post row — the workhorse.
+  Overrides the Blowfish partial of the same name.
+
+  DESIGN-SYSTEM.md §05: 96px date column · 18px gap · 1fr content.
+  Deliberately drops the feature-image branch of the upstream partial: the
+  design system forbids image cards on lists (cardView stays false everywhere).
+*/}}
+
+{{ $page := .Page }}
+{{ $showSummary := .Params.showSummary | default (site.Params.list.showSummary | default false) }}
+{{ $sameYear := eq (.Date.Format "2006") (now.Format "2006") }}
+
+<article class="dh-row">
+  <div class="dh-row__date">
+    <time datetime="{{ .Date.Format `2006-01-02` }}" title="{{ .Date | time.Format `2 January 2006` }}">
+      {{ upper (.Date.Format "2 Jan") }}
+      {{ if not $sameYear }}<span class="dh-row__year">{{ .Date.Format "2006" }}</span>{{ end }}
+    </time>
+  </div>
+
+  <div class="dh-row__body">
+    <h2 class="dh-row__title">
+      <a
+        {{ with $page.Params.externalUrl }}
+          href="{{ . }}" target="_blank" rel="external noopener"
+        {{ else }}
+          href="{{ $page.RelPermalink }}"
+        {{ end }}
+        class="dh-row__link">
+        {{ .Title | emojify }}
+        {{ with .Params.externalUrl }}<span class="dh-row__ext" aria-hidden="true">&#8599;</span>{{ end }}
+      </a>
+      {{ if and .Draft site.Params.article.showDraftLabel }}
+        <span class="dh-tag dh-tag--draft">{{ i18n "article.draft" | emojify }}</span>
+      {{ end }}
+    </h2>
+
+    {{ if $showSummary }}
+      {{ with .Params.summary | default .Summary }}
+        <p class="dh-row__summary">{{ . | plainify | emojify }}</p>
+      {{ end }}
+    {{ end }}
+
+    <div class="dh-row__meta">
+      {{ range .Params.tags }}
+        <a class="dh-tag" href="{{ (printf "tags/%s" (urlize .)) | relLangURL }}">{{ . }}</a>
+      {{ end }}
+      {{ if site.Params.article.showReadingTime | default true }}
+        <span class="dh-readingtime">{{ .ReadingTime }} MIN</span>
+      {{ end }}
+    </div>
+  </div>
+</article>

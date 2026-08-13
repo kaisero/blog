@@ -1,0 +1,34 @@
+# -- Main Menu --
+# Design system: Posts · Topics · Lab · About, then search.
+
+[[main]]
+  name = "Posts"
+  pageRef = "posts"
+  weight = 10
+
+[[main]]
+  name = "Topics"
+  pageRef = "tags"
+  weight = 20
+
+[[main]]
+  name = "Lab"
+  pageRef = "lab"
+  weight = 30
+
+[[main]]
+  name = "About"
+  pageRef = "about"
+  weight = 40
+
+# -- Footer Menu --
+
+[[footer]]
+  name = "Topics"
+  pageRef = "tags"
+  weight = 10
+
+[[footer]]
+  name = "RSS"
+  url = "/index.xml"
+  weight = 20

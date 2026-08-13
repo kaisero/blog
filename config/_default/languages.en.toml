@@ -1,0 +1,21 @@
+disabled = false
+locale = "en"
+label = "English"
+weight = 1
+title = "dependencyhell.net"
+
+[params]
+  displayName = "EN"
+  isoCode = "en"
+  rtl = false
+  dateFormat = "2 January 2006"  # design system: "11 August 2026"
+  description = "Notes on AI security, Zero Trust and SASE — from the lab, not the datasheet."
+  copyright = "© 2026 dependencyhell.net"
+
+[params.author]
+  name = "Oliver Mackenzie"
+  headline = "Domain Consultant at Palo Alto Networks"
+  bio = "I work on Zero Trust and SASE architectures. This is where I write up what I actually see when I put the products on a bench — the failure modes, the defaults nobody documents, and where AI is quietly changing the threat model. Opinions are mine."
+  links = [
+    { github = "https://github.com/kaisero" },
+  ]

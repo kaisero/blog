@@ -1,0 +1,59 @@
+/* dependencyhell scheme — Blowfish colour ramps
+ *
+ * Normative source: DESIGN-SYSTEM.md §02 Colour.
+ * Blowfish consumes these as "R, G, B" triplets so Tailwind can apply alpha.
+ *
+ * How Blowfish maps the neutral ramp in the dark appearance:
+ *   neutral-800  body background (canvas)
+ *   neutral-900  deepest surface
+ *   neutral-700  inset panels and structural borders
+ *   neutral-600  brighter borders
+ *   neutral-500  muted text
+ *   neutral-400  secondary text
+ *   neutral-300  body text
+ *   neutral-100  headings
+ * The ramp is therefore a cyan-tinted grey, not a neutral grey — depth on this
+ * site is always one hue.
+ */
+
+:root {
+  /* Brightest ink. Doubles as the light-appearance canvas in Blowfish. */
+  --color-neutral: 232, 246, 250;
+
+  /* Cyan-tinted grey */
+  --color-neutral-50: 244, 251, 253;
+  --color-neutral-100: 232, 246, 250; /* heading    #E8F6FA */
+  --color-neutral-200: 216, 237, 244;
+  --color-neutral-300: 196, 226, 236; /* body       #C4E2EC */
+  --color-neutral-400: 169, 204, 216; /* secondary  #A9CCD8 */
+  --color-neutral-500: 127, 168, 181; /* muted      #7FA8B5 */
+  --color-neutral-600: 6, 51, 64; /* border, brighter */
+  --color-neutral-700: 1, 32, 46; /* border / inset panel  #01202E */
+  --color-neutral-800: 0, 4, 6; /* canvas     #000406 */
+  --color-neutral-900: 0, 2, 3; /* deepest */
+
+  /* The one accent. 500 is THE accent — #00C0E8. */
+  --color-primary-50: 236, 252, 255; /* #ECFCFF */
+  --color-primary-100: 201, 242, 252;
+  --color-primary-200: 165, 234, 250;
+  --color-primary-300: 127, 228, 247; /* #7FE4F7 */
+  --color-primary-400: 86, 214, 244; /* #56D6F4 — links */
+  --color-primary-500: 0, 192, 232; /* #00C0E8 — THE ACCENT */
+  --color-primary-600: 0, 171, 206;
+  --color-primary-700: 1, 150, 179; /* #0196B3 — hover */
+  --color-primary-800: 10, 112, 137;
+  --color-primary-900: 10, 78, 94; /* #0A4E5E */
+
+  /* Secondary mirrors primary on purpose: the design system forbids a second
+   * accent hue, and Blowfish reaches for `secondary` in a few components. */
+  --color-secondary-50: 236, 252, 255;
+  --color-secondary-100: 201, 242, 252;
+  --color-secondary-200: 165, 234, 250;
+  --color-secondary-300: 127, 228, 247;
+  --color-secondary-400: 86, 214, 244;
+  --color-secondary-500: 0, 192, 232;
+  --color-secondary-600: 0, 171, 206;
+  --color-secondary-700: 1, 150, 179;
+  --color-secondary-800: 10, 112, 137;
+  --color-secondary-900: 10, 78, 94;
+}

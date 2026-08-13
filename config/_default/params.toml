@@ -1,0 +1,98 @@
+# -- Theme Options --
+# https://blowfish.page/docs/configuration/#theme-parameters
+#
+# Values marked "design system" are normative — they come from
+# DESIGN-SYSTEM.md and must not be changed without changing the spec.
+
+colorScheme = "dependencyhell"  # design system: assets/css/schemes/dependencyhell.css
+defaultAppearance = "dark"      # design system: dark-first
+autoSwitchAppearance = false    # design system: no auto-switch
+
+enableA11y = true
+enableSearch = true
+enableCodeCopy = true
+enableStructuredBreadcrumbs = false
+enableStyledScrollbar = true
+
+replyByEmail = false
+
+mainSections = ["posts", "lab"]
+
+disableImageOptimization = false
+disableImageOptimizationMD = false
+disableTextInHeader = false
+
+hotlinkFeatureImage = false
+
+smartTOC = true
+smartTOCHideUnfocusedChildren = false
+highlightCurrentMenuArea = true
+
+fingerprintAlgorithm = "sha512"
+
+[header]
+  layout = "fixed-fill-blur"  # design system: fixed, hairline, blurred
+
+[footer]
+  showMenu = true
+  showCopyright = true
+  showThemeAttribution = true
+  showAppearanceSwitcher = false  # design system: no auto-switch, dark only
+  showScrollToTop = true
+
+[homepage]
+  layout = "custom"  # design system: masthead + dense post list (layouts/partials/home/custom.html)
+  showRecent = false
+  cardView = false   # design system: no image cards, anywhere
+
+[article]
+  showDate = true
+  showDateOnlyInArticle = false
+  showDateUpdated = false
+  showAuthor = false        # single-author site; the byline lives in the footer
+  showHero = false
+  showBreadcrumbs = false
+  showDraftLabel = true
+  showEdit = false
+  seriesOpened = false
+  showHeadingAnchors = true
+  showPagination = true
+  invertPagination = false
+  showReadingTime = true
+  showTableOfContents = true  # design system: 182px sticky TOC
+  showRelatedContent = true
+  relatedContentLimit = 3
+  showTaxonomies = true
+  showCategories = false
+  showTags = true
+  showAuthorsBadges = false
+  showWordCount = false
+  showZenMode = false
+
+[list]
+  showHero = false
+  showBreadcrumbs = false
+  showSummary = true   # design system: summaries earn their line
+  showTableOfContents = false
+  showCards = false
+  orderByWeight = false
+  groupByYear = false  # design system: flat dense list with a date column
+  cardView = false
+  constrainItemsWidth = false
+
+[sitemap]
+  excludedKinds = ["taxonomy", "term"]
+
+[taxonomy]
+  showTermCount = true
+  showHero = false
+  showBreadcrumbs = false
+  showTableOfContents = false
+  cardView = false
+
+[term]
+  showHero = false
+  showBreadcrumbs = false
+  showTableOfContents = false
+  groupByYear = false
+  cardView = false

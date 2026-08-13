@@ -1,0 +1,79 @@
+{{/* Post card.
+  Overrides the Blowfish partial so cards speak the design system: card
+  gradient behind a cyan hairline, inset top highlight instead of a shadow,
+  mono meta and tags, and a colour-only hover.
+
+  Thumbnails come from a `feature*` page resource (SVG is passed through
+  unresized); a card without one degrades to a hairline plate rather than a
+  broken image box.
+*/}}
+{{ $page := .Page }}
+{{ $ratio := site.Params.thumbnailAspectRatio | default "1.5" }}
+{{ $disableOpt := site.Store.Get "disableImageOptimization" }}
+{{ $sameYear := eq (.Date.Format "2006") (now.Format "2006") }}
+
+{{ $featuredURL := "" }}
+{{ if not .Params.hideFeatureImage }}
+  {{ $featured := "" }}
+  {{ with .Params.featureimage }}
+    {{ $featured = $page.Resources.Get . }}
+    {{ if not $featured }}{{ $featured = resources.Get . }}{{ end }}
+  {{ end }}
+  {{ if not $featured }}
+    {{ $images := $page.Resources.ByType "image" }}
+    {{ range slice "*feature*" "*cover*" "*thumbnail*" }}
+      {{ if not $featured }}{{ $featured = $images.GetMatch . }}{{ end }}
+    {{ end }}
+  {{ end }}
+  {{ with $featured }}
+    {{ $featuredURL = .RelPermalink }}
+    {{ if not (or $disableOpt (eq .MediaType.SubType "svg")) }}
+      {{ $featuredURL = (.Resize "800x webp q90").RelPermalink }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+<article class="dh-card-link">
+  <a class="dh-card-link__hit"
+    {{ with $page.Params.externalUrl }}
+      href="{{ . }}" target="_blank" rel="external noopener"
+    {{ else }}
+      href="{{ $page.RelPermalink }}"
+    {{ end }}
+    aria-label="{{ .Title | plainify }}"></a>
+
+  <div class="dh-card-link__thumb" style="--dh-thumb-ratio: {{ $ratio }}">
+    {{ with $featuredURL }}
+      <img src="{{ . }}" alt="" role="presentation" loading="lazy" decoding="async" />
+    {{ end }}
+  </div>
+
+  <div class="dh-card-link__body">
+    <div class="dh-card-link__meta">
+      <time datetime="{{ .Date.Format `2006-01-02` }}">
+        {{ upper (.Date.Format "2 Jan") }}{{ if not $sameYear }} {{ .Date.Format "2006" }}{{ end }}
+      </time>
+      {{ if site.Params.article.showReadingTime | default true }}
+        <span class="dh-card-link__sep" aria-hidden="true">·</span>
+        <span class="dh-readingtime">{{ .ReadingTime }} MIN</span>
+      {{ end }}
+      {{ if and .Draft site.Params.article.showDraftLabel }}
+        <span class="dh-tag dh-tag--draft">{{ i18n "article.draft" | emojify }}</span>
+      {{ end }}
+    </div>
+
+    <h2 class="dh-card-link__title">{{ .Title | emojify }}</h2>
+
+    {{ if .Params.showSummary | default (site.Params.list.showSummary | default false) }}
+      {{ with .Params.summary | default .Summary }}
+        <p class="dh-card-link__summary">{{ . | plainify | emojify }}</p>
+      {{ end }}
+    {{ end }}
+
+    <div class="dh-card-link__tags">
+      {{ range .Params.tags }}
+        <span class="dh-tag">{{ . }}</span>
+      {{ end }}
+    </div>
+  </div>
+</article>

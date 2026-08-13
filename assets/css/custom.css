@@ -184,14 +184,14 @@ time,
 /* Body links only. Post rows and tags live inside .prose on the article and
    list layouts, and they carry their own link language (§05) — a row title is
    heading-coloured until hover, and a tag is a bordered mono chip. */
-.prose a:not(.dh-row__link):not(.dh-tag):not(.dh-btn),
+.prose a:not(.dh-row__link):not(.dh-tag):not(.dh-btn):not(.dh-card-link__hit),
 .dh-prose a {
   color: var(--dh-link);
   text-decoration: none;
   border-bottom: 1px solid rgba(1, 150, 179, 0.6);
 }
 
-.prose a:not(.dh-row__link):not(.dh-tag):not(.dh-btn):hover,
+.prose a:not(.dh-row__link):not(.dh-tag):not(.dh-btn):not(.dh-card-link__hit):hover,
 .dh-prose a:hover {
   color: #00c0e8;
   border-bottom-color: var(--dh-accent);
@@ -350,6 +350,152 @@ section.space-y-10 > :not([hidden]) ~ :not([hidden]) {
   margin-top: var(--dh-s4);
 }
 
+/* -- 06b Post card --------------------------------------------------------
+   A spec extension: the original design system forbade image cards on lists.
+   Cards keep the rest of the language intact — card gradient behind a cyan
+   hairline, inset top edge instead of a shadow, mono meta, colour-only hover. */
+
+.dh-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--dh-s4);
+}
+
+/* Blowfish's own list/taxonomy templates emit the grid wrapper themselves. */
+section:has(> .dh-card-link) {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--dh-s4);
+}
+
+@media (max-width: 1024px) {
+  .dh-card-grid,
+  section:has(> .dh-card-link) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .dh-card-grid,
+  section:has(> .dh-card-link) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.dh-card-link {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--dh-surface-card);
+  border: 1px solid var(--dh-line-card);
+  border-radius: var(--dh-r-card);
+  box-shadow: var(--dh-inset-top);
+  transition: border-color var(--dh-transition) ease;
+}
+
+.dh-card-link:hover {
+  border-color: rgba(0, 192, 232, 0.32);
+}
+
+/* One hit area for the whole card; the title is not separately focusable. */
+.dh-card-link__hit {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-bottom: 0;
+}
+
+.dh-card-link:focus-within {
+  outline: 2px solid var(--dh-accent);
+  outline-offset: 2px;
+}
+
+.dh-card-link__hit:focus-visible {
+  outline: none;
+}
+
+.dh-card-link__thumb {
+  aspect-ratio: var(--dh-thumb-ratio, 1.5);
+  background: var(--dh-surface-code);
+  border-bottom: 1px solid var(--dh-line-card);
+  overflow: hidden;
+}
+
+.dh-card-link__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.dh-card-link__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dh-s2);
+  padding: var(--dh-s4) var(--dh-s4) 18px;
+  flex: 1 1 auto;
+}
+
+.dh-card-link__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--dh-s2);
+  font-family: var(--dh-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dh-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+.dh-card-link__meta .dh-readingtime {
+  margin-inline-start: 0;
+}
+
+.dh-card-link__sep {
+  opacity: 0.55;
+}
+
+/* Card titles run at 19px: at three-up the 22px row title wraps to four lines. */
+.dh-card-link__title {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  margin: 0;
+  color: var(--dh-heading);
+  transition: color var(--dh-transition) ease;
+}
+
+.dh-card-link:hover .dh-card-link__title {
+  color: var(--dh-cyan-400);
+}
+
+.dh-card-link__summary {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--dh-secondary);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-wrap: pretty;
+}
+
+.dh-card-link__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: var(--dh-s1);
+  position: relative;
+  z-index: 2;
+}
+
 /* -- 07 Tags, reading time, buttons (§05) --------------------------------- */
 
 .dh-tag {
@@ -491,7 +637,7 @@ main header h1,
    Scoped away from the two h2s that are not prose headings: the post-row title
    (22px, §05) and the section head, which already renders the rule as its own
    <hr class="dh-rule"> element. */
-.prose h2:not(.dh-row__title):not(.dh-section-title) {
+.prose h2:not(.dh-row__title):not(.dh-section-title):not(.dh-card-link__title) {
   font-size: 23px;
   font-weight: 700;
   letter-spacing: -0.03em;
@@ -500,7 +646,7 @@ main header h1,
   margin-bottom: var(--dh-s3);
 }
 
-.prose h2:not(.dh-row__title):not(.dh-section-title)::before {
+.prose h2:not(.dh-row__title):not(.dh-section-title):not(.dh-card-link__title)::before {
   content: "";
   display: block;
   width: 56px;

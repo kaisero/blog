@@ -1,8 +1,7 @@
 {{/* Related content.
-  Overrides the Blowfish partial, which lays related posts out in a 3-column
-  card grid. DESIGN-SYSTEM.md §05 has one list primitive — the post row — and
-  §06 forbids image cards on lists, so related posts stack like every other
-  list on the site.
+  Overrides the Blowfish partial so the section head matches the rest of the
+  site (56x1 cyan rule + title) and the cards come from our own card partial
+  rather than the theme's.
 */}}
 {{ if .Params.showRelatedContent | default (site.Params.article.showRelatedContent | default false) }}
   {{ $related := site.RegularPages.Related . | first (site.Params.article.relatedContentLimit | default 3) }}
@@ -12,9 +11,9 @@
         <hr class="dh-rule" />
         <h2 class="dh-section-title">{{ i18n "article.related_articles" | emojify }}</h2>
       </div>
-      <div class="dh-list">
+      <div class="dh-card-grid">
         {{ range . }}
-          {{ partial "article-link/simple.html" . }}
+          {{ partial "article-link/card.html" . }}
         {{ end }}
       </div>
     </section>

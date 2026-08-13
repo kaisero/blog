@@ -6,3 +6,6 @@ hugo_stats.json
 
 # macOS
 .DS_Store
+
+# Local design prototypes — not part of the site build
+/prototypes/

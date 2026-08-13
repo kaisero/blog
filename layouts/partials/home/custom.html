@@ -38,9 +38,9 @@
       <h2 class="dh-section-title">Latest</h2>
     </div>
 
-    <div class="dh-list">
+    <div class="dh-card-grid">
       {{ range first $limit $pages }}
-        {{ partial "article-link/simple.html" . }}
+        {{ partial "article-link/card.html" . }}
       {{ end }}
     </div>
 

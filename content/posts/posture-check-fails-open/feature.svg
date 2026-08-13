@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400" role="img" aria-label="Concentric rings with a gap — a check that fails open">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.22" y2="1">
+      <stop offset="0" stop-color="#011A26"/>
+      <stop offset="0.46" stop-color="#00090E"/>
+      <stop offset="1" stop-color="#000508"/>
+    </linearGradient>
+    <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#00C0E8" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#00C0E8" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="600" height="400" fill="url(#bg)"/>
+
+  <!-- hairline field -->
+  <g stroke="#00C0E8" stroke-opacity="0.07" stroke-width="1">
+    <path d="M0 80.5H600M0 160.5H600M0 240.5H600M0 320.5H600"/>
+    <path d="M80.5 0V400M160.5 0V400M240.5 0V400M320.5 0V400M400.5 0V400M480.5 0V400"/>
+  </g>
+
+  <!-- closed ring: the check that holds -->
+  <circle cx="300" cy="200" r="54" fill="none" stroke="#0A4E5E" stroke-width="10"/>
+
+  <!-- outer ring, broken open at the right: unknown was never given a verdict -->
+  <path d="M300 96 A104 104 0 1 1 227 353" fill="none" stroke="#00C0E8" stroke-width="10" stroke-linecap="butt"/>
+
+  <!-- the gap, drawn as absence -->
+  <path d="M300 96 A104 104 0 0 1 373 353" fill="none" stroke="#00C0E8" stroke-opacity="0.14" stroke-width="10" stroke-dasharray="2 14" stroke-linecap="round"/>
+
+  <circle cx="300" cy="200" r="12" fill="#E8F6FA"/>
+
+  <rect x="48" y="336" width="120" height="1" fill="url(#fade)"/>
+</svg>

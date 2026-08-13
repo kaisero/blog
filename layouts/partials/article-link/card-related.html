@@ -1,6 +1,3 @@
-{{/* Related content.
-  Overrides the Blowfish card so related posts render as post rows.
-  DESIGN-SYSTEM.md §06: image cards are forbidden on lists — cardView stays
-  false everywhere, and the row is the only list primitive.
-*/}}
-{{ partial "article-link/simple.html" . }}
+{{/* Related content card — routed through the site's own card partial so
+  related posts look identical to every other card on the site. */}}
+{{ partial "article-link/card.html" . }}

@@ -1,6 +1,11 @@
 # dependencyhell.net — design system
 
-Version 1.0. The prose form of `dependencyhell.net Design System.dc (1).html`.
+Version 1.1. The prose form of `dependencyhell.net Design System.dc (1).html`.
+
+**Changed in 1.1** — lists moved from dense rows to three-up cards with
+thumbnails. v1.0 forbade image cards outright; that rule is withdrawn and
+replaced by the card spec in §05. The row is retained as a primitive but is no
+longer what the list templates use.
 
 Every value here is **normative**. Build to it; don't reinterpret it. If a value
 needs to change, change it here first, then in the CSS.
@@ -14,7 +19,7 @@ Mono · dark-first, no auto-switch.
 | --- | --- |
 | Colour ramps (Blowfish RGB triplets) | `assets/css/schemes/dependencyhell.css` |
 | Surfaces, type, density, components | `assets/css/custom.css` |
-| Post row, header, homepage, related | `layouts/partials/…` |
+| Post card and row, header, homepage, related | `layouts/partials/…` |
 | Theme switches (cardView, TOC, appearance) | `config/_default/params.toml` |
 
 `custom.css` is deliberately **unlayered**. Blowfish ships its Tailwind build
@@ -116,8 +121,14 @@ the title row.
   padding for the border.
 - **Tags** — mono 9.5px, uppercase, +.12em, transparent fill always, 1px
   `rgba(0,192,232,.18)` border, radius 5. Hover goes cyan.
-- **Post row** — the workhorse. Date column, 22px title, summary, tags, reading
-  time. Hover: title goes cyan-400, **nothing else moves** (150ms colour only).
+- **Post card** — what every list renders. Three per row on desktop, two below
+  1024px, one below 640px, 20px gutters. Thumbnail at 3:2 above a hairline, then
+  mono meta, a 19px title, a three-line clamped summary, and tags pinned to the
+  bottom. One hit area covers the card. Hover: title goes cyan-400 and the border
+  brightens — **nothing moves**. Cards keep the shared surface language: card
+  gradient, 1px cyan border, 16px radius, inset top edge, no shadow.
+- **Post row** — retained for dense contexts. Date column, 22px title, summary,
+  tags, reading time. Hover: title goes cyan-400, **nothing else moves**.
 - **Code block** — line numbers in a gutter (a separate table cell, so copying
   the code never picks them up). Inline code is cyan-300 on a 10% cyan wash.
 - **TOC** — 182px, sticky, 2px left indicator; cyan when active.
@@ -138,7 +149,8 @@ the title row.
 **Don't**
 
 - Radial or multi-hue gradients, glows, or drop shadows.
-- Image cards on lists — `cardView` stays false everywhere.
+- Thumbnails that are photography or stock art. Card art is generated,
+  geometric and single-hue, or the card carries no image at all.
 - A border alpha reused as a text colour (`#6B94A3` is the dark floor).
 - Hover effects that move layout — colour only, 150ms.
 - A second accent hue. Status colours are content, not chrome.

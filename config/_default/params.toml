@@ -23,6 +23,7 @@ disableImageOptimizationMD = false
 disableTextInHeader = false
 
 hotlinkFeatureImage = false
+thumbnailAspectRatio = "1.5"
 
 smartTOC = true
 smartTOCHideUnfocusedChildren = false
@@ -43,7 +44,7 @@ fingerprintAlgorithm = "sha512"
 [homepage]
   layout = "custom"  # design system: masthead + dense post list (layouts/partials/home/custom.html)
   showRecent = false
-  cardView = false   # design system: no image cards, anywhere
+  cardView = true
 
 [article]
   showDate = true
@@ -76,8 +77,8 @@ fingerprintAlgorithm = "sha512"
   showTableOfContents = false
   showCards = false
   orderByWeight = false
-  groupByYear = false  # design system: flat dense list with a date column
-  cardView = false
+  groupByYear = false
+  cardView = true
   constrainItemsWidth = false
 
 [sitemap]
@@ -88,11 +89,11 @@ fingerprintAlgorithm = "sha512"
   showHero = false
   showBreadcrumbs = false
   showTableOfContents = false
-  cardView = false
+  cardView = true
 
 [term]
   showHero = false
   showBreadcrumbs = false
   showTableOfContents = false
   groupByYear = false
-  cardView = false
+  cardView = true

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192"
+     role="img" aria-label="Placeholder author portrait">
+  <!-- Placeholder author portrait. Colours are baked in because the theme renders
+       this with <img>, where the stylesheet cannot reach it. Deliberately
+       mid-tone so the same file reads on both the dark and the light canvas.
+       The theme clips it to a circle, so the plate fills the whole square. -->
+  <defs>
+    <linearGradient id="avPlate" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0" stop-color="#04303F"/>
+      <stop offset="0.55" stop-color="#01202E"/>
+      <stop offset="1" stop-color="#00121B"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="192" height="192" fill="url(#avPlate)"/>
+
+  <!-- hairline ring, inset so it survives the circular clip -->
+  <circle cx="96" cy="96" r="92" fill="none" stroke="#00C0E8" stroke-opacity="0.28" stroke-width="2"/>
+
+  <!-- the figure: same stroke language as the rest of the site's line art -->
+  <circle cx="96" cy="76" r="27" fill="none" stroke="#00C0E8" stroke-width="9"/>
+  <path d="M44 158a52 52 0 0 1 104 0" fill="none" stroke="#00C0E8" stroke-width="9" stroke-linecap="round"/>
+
+  <!-- a quiet echo of the wordmark's core dot -->
+  <circle cx="96" cy="76" r="7" fill="#E8F6FA" fill-opacity="0.55"/>
+</svg>

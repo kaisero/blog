@@ -17,6 +17,9 @@ title = "dependencyhell.com"
 
 [params.author]
   name = "Oliver Mackenzie"
+  # Resolved from assets/. SVG is passed through untouched — the theme only runs
+  # Fill/Crop on raster images. Swap in a photo when you have one.
+  image = "img/avatar-placeholder.svg"
   headline = "Domain Consultant at Palo Alto Networks"
   bio = "I work on Zero Trust and SASE architectures. This is where I write up what I actually see when I put the products on a bench — the failure modes, the defaults nobody documents, and where AI is quietly changing the threat model. Opinions are mine."
   links = [

@@ -1,6 +1,9 @@
 # dependencyhell.com — design system
 
-Version 1.6. The prose form of `dependencyhell.net Design System.dc (1).html`.
+Version 1.7. The prose form of `dependencyhell.net Design System.dc (1).html`.
+
+**Changed in 1.7** — the About page carries an animated policy-mesh background.
+See §08.
 
 **Changed in 1.6** — dark is the default for every reader; the site no longer
 follows the OS. The footer switch still offers light and the choice is
@@ -220,6 +223,34 @@ true` only follows the OS if `defaultAppearance = "light"`. The theme's `appeara
 unconditionally when the default is `dark` and no choice is stored, and its
 auto-switch branch only ever *adds* dark on load — so a light-preferring visitor
 would still get dark.
+
+## 08 Policy-mesh background
+
+About only. A fixed field of policy nodes behind the page, masked to a
+horizontal band (`transparent 24% → solid 40–62% → transparent 80%`) so it reads
+as a horizon rather than wallpaper.
+
+**The sweep enters from the right, runs inward and dissolves just past the
+centre** — it never reaches the left edge, which is where the reading column
+sits. 8.2s of travel, then 2.6s of rest. Measured: full strength at 78% across,
+already fading by 59%, effectively gone by 41%.
+
+Ink comes from `--dh-mesh-ink` / `--dh-mesh-line` / `--dh-mesh-dim` on the host,
+so it follows the appearance: cyan-500 in dark, primary-700 at half strength in
+light, where the bright cyan has nothing to give against a near-white canvas. A
+MutationObserver re-reads them when the appearance switch fires.
+
+Two implementation notes, both non-obvious:
+
+- The layer sits at `z-index: -1`, which paints above the root background but
+  below body content — and that only holds while the body is not painting an
+  opaque colour over it, hence `body:has(.dh-mesh) { background: transparent }`.
+  The canvas colour still comes from `<html>`.
+- It is wired through `extend-head-uncached.html`, **not** `extend-footer.html`.
+  Blowfish calls the footer hook via `partialCached` with no variant key, so it
+  is cached once for the entire site and cannot vary per page. The script
+  creates its own host element, so a head hook is sufficient and no theme
+  template needs forking.
 
 ## 06 Rules
 

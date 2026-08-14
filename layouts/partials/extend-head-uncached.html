@@ -1,0 +1,21 @@
+{{/* Page-scoped extras.
+
+  This hook is deliberate: Blowfish calls extend-footer.html through
+  `partialCached` with no variant key, so it is cached ONCE for the whole site
+  and cannot vary per page. extend-head-uncached.html is called with `partial`
+  and the page context, so it can.
+
+  The script creates its own host element, which is why a <head> hook is enough.
+*/}}
+{{ if and .File (eq .File.ContentBaseName "about") }}
+  {{ $mesh := resources.Get "js/mesh-background.js" }}
+  {{ if $mesh }}
+    {{ $mesh = $mesh | resources.Minify | resources.Fingerprint (site.Params.fingerprintAlgorithm | default "sha512") }}
+    <script
+      type="text/javascript"
+      src="{{ $mesh.RelPermalink }}"
+      integrity="{{ $mesh.Data.Integrity }}"
+      data-mesh-auto="band"
+      defer></script>
+  {{ end }}
+{{ end }}

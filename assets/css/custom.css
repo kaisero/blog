@@ -1159,7 +1159,7 @@ main header h1,
   height: 2px;
   border-radius: 1px;
   background: linear-gradient(90deg, rgba(0, 192, 232, 0) 0%, var(--dh-accent) 55%, rgba(0, 192, 232, 0) 100%);
-  animation: dh-pk-run var(--dh-dur, 5s) linear var(--dh-delay, 0s) infinite;
+  animation: dh-pk-run var(--dh-dur, 10s) linear var(--dh-delay, 0s) infinite;
   opacity: var(--dh-op, .75);
   will-change: transform;
 }
@@ -1198,7 +1198,7 @@ main header h1,
   mask-size: 220% 100%;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  animation: dh-sweep 6.5s linear infinite;
+  animation: dh-sweep 13s linear infinite;
 }
 
 .dh-hero__hot {
@@ -1485,7 +1485,39 @@ html:not(.dark) .highlight .sd { color: #0a7089; }
 html:not(.dark) .highlight .nf,
 html:not(.dark) .highlight .nb { color: var(--dh-heading); }
 
-/* -- 17 Responsive (§04) -------------------------------------------------- */
+/* -- 17 Policy-mesh background (§08) --------------------------------------
+   A fixed field of policy nodes behind the About page, masked to a horizontal
+   band so it reads as a horizon rather than wallpaper. The sweep enters from
+   the right and dissolves just past the centre — it never crosses the reading
+   column. Geometry and motion live in assets/js/mesh-background.js; only the
+   ink is decided here, so it follows the appearance. */
+
+.dh-mesh {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  --dh-mesh-ink: 0,192,232;
+  --dh-mesh-line: 86,214,244;
+  --dh-mesh-dim: 1;
+}
+
+/* Cyan-500 has nothing to give against a near-white canvas, so on light the ink
+   darkens to primary-700 and the whole field steps back. */
+html:not(.dark) .dh-mesh {
+  --dh-mesh-ink: 1,150,179;
+  --dh-mesh-line: 10,112,137;
+  --dh-mesh-dim: 0.5;
+}
+
+/* A negative z-index paints above the root background but below body content —
+   which only holds while the body is not painting an opaque colour over it. The
+   canvas colour still comes from <html>. */
+body:has(.dh-mesh) {
+  background: transparent;
+}
+
+/* -- 18 Responsive (§04) -------------------------------------------------- */
 
 /* Below 900px the date column stacks onto the title row. */
 @media (max-width: 900px) {

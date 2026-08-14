@@ -8,6 +8,11 @@
   The script creates its own host element, which is why a <head> hook is enough.
 */}}
 {{ if and .File (eq .File.ContentBaseName "about") }}
+  {{/* 8c runs a narrower column than the rest of the site. Emitting it as a
+       custom property keeps the rule itself in custom.css and confines the
+       change to this page — no body class, no forked baseof. */}}
+  <style>:root{--dh-page-col:1180px}</style>
+
   {{ $mesh := resources.Get "js/mesh-background.js" }}
   {{ if $mesh }}
     {{ $mesh = $mesh | resources.Minify | resources.Fingerprint (site.Params.fingerprintAlgorithm | default "sha512") }}

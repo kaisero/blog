@@ -1485,6 +1485,25 @@ html:not(.dark) .highlight .sd { color: #0a7089; }
 html:not(.dark) .highlight .nf,
 html:not(.dark) .highlight .nb { color: var(--dh-heading); }
 
+/* Page-scoped column. Blowfish sets the measure with a utility on <body>; About
+   narrows it to match the 8c layout by declaring --dh-page-col in its own head,
+   so no other page moves. */
+body {
+  max-width: var(--dh-page-col, 80rem);
+}
+
+/* The 8c eyebrow: the topic line between the title and the copy. Mono, tracked,
+   at the meta colour — the same register as a date or a reading time. */
+.dh-page-eyebrow,
+.prose p.dh-page-eyebrow {
+  font-family: var(--dh-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dh-meta);
+  margin: 0 0 34px;
+}
+
 /* -- 17 Policy-mesh background (§08) --------------------------------------
    A fixed field of policy nodes behind the About page, masked to a horizontal
    band so it reads as a horizon rather than wallpaper. The sweep enters from

@@ -287,6 +287,13 @@ time,
   color: var(--dh-muted);
 }
 
+/* The mark's outer arc carries no stroke attribute — it is coloured here so it
+   follows the appearance. Used by the header brand and the homepage lockup, so
+   losing this rule makes the arc vanish site-wide. */
+.dh-mark__arc {
+  stroke: var(--dh-brand-cyan);
+}
+
 /* Header bar: blurred, hairline, single-hue gradient (§05). */
 #menu-blur {
   background: var(--dh-surface-header);
@@ -1095,209 +1102,55 @@ main header h1,
 }
 
 /* -- 13b Homepage hero (§05) ----------------------------------------------
-   Traffic lanes carrying packets, under an inspection beam that brightens a dot
-   field as it passes — the two things the site is about, in one plate.
-
-   Composition rule: lanes that would run through the copy are masked back so a
-   hairline never reads as a strikethrough; the lanes above and below it run edge
-   to edge. Motion is transform and mask-position only — no layout, no paint of
-   large areas — and it all stops under prefers-reduced-motion. */
+   Type only — eyebrow, lockup, tagline, centred. No panel: the hero is the
+   page opening, not a card sitting on it. The motion behind it is the shared
+   policy mesh (§08), revealed across the top and faded out before the cards. */
 
 .dh-hero {
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  min-height: 440px;
-  margin-top: var(--dh-s6);
-  background: var(--dh-surface-card);
-  border: 1px solid var(--dh-line-card);
-  border-radius: var(--dh-r-card);
-  box-shadow: var(--dh-inset-top);
-}
-
-.dh-hero__bg {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-/* Everything that must stay off the copy shares one mask. */
-.dh-hero__masked,
-.dh-hero__sweep {
-  position: absolute;
-  inset: 0;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, transparent 46%, #000 70%);
-  mask-image: linear-gradient(90deg, transparent 0%, transparent 46%, #000 70%);
-}
-
-.dh-lane-line {
-  stroke: var(--dh-lane);
-  stroke-width: 1;
-}
-
-.dh-lane-line--faint {
-  stroke: var(--dh-lane-faint);
-}
-
-.dh-dot--dim { fill: var(--dh-dot-dim); }
-.dh-dot--hot { fill: var(--dh-dot-hot); }
-
-.dh-mark__arc { stroke: var(--dh-brand-cyan); }
-
-.dh-hero__lanes {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* Packets. Lane positions are percentages so they track the lanes at any hero
-   height — the SVG stretches, and pixel offsets would drift off it. */
-.dh-pk {
-  position: absolute;
-  left: 44%;
-  height: 2px;
-  border-radius: 1px;
-  background: linear-gradient(90deg, rgba(0, 192, 232, 0) 0%, var(--dh-accent) 55%, rgba(0, 192, 232, 0) 100%);
-  animation: dh-pk-run var(--dh-dur, 10s) linear var(--dh-delay, 0s) infinite;
-  opacity: var(--dh-op, .75);
-  will-change: transform;
-}
-
-@keyframes dh-pk-run {
-  from { transform: translateX(-120px); }
-  to { transform: translateX(1000px); }
-}
-
-.dh-pk--open {
-  left: 0;
-  animation-name: dh-pk-open;
-}
-
-@keyframes dh-pk-open {
-  from { transform: translateX(-240px); }
-  to { transform: translateX(1340px); }
-}
-
-/* Dot field. An SVG <pattern> rather than a few thousand rects — and no
-   viewBox, so the dots stay square whatever the hero measures. */
-.dh-hero__dots {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* The bright band and the beam run off the same animation, so the line always
-   sits at the leading edge of what it has just lit up. */
-.dh-hero__hot,
-.dh-hero__beam {
-  position: absolute;
-  inset: 0;
-  -webkit-mask-size: 220% 100%;
-  mask-size: 220% 100%;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  animation: dh-sweep 13s linear infinite;
-}
-
-.dh-hero__hot {
-  -webkit-mask-image: linear-gradient(90deg, transparent 40%, #000 50%, transparent 60%);
-  mask-image: linear-gradient(90deg, transparent 40%, #000 50%, transparent 60%);
-}
-
-.dh-hero__beam {
-  -webkit-mask-image: linear-gradient(90deg, transparent 49.6%, #000 50%, transparent 50.4%);
-  mask-image: linear-gradient(90deg, transparent 49.6%, #000 50%, transparent 50.4%);
-}
-
-.dh-hero__beam i {
-  position: absolute;
-  inset: 0;
-  opacity: .45;
-  background: linear-gradient(180deg, rgba(0, 192, 232, 0) 0%, var(--dh-accent) 16%, var(--dh-accent) 84%, rgba(0, 192, 232, 0) 100%);
-}
-
-@keyframes dh-sweep {
-  from { -webkit-mask-position: -120% 0; mask-position: -120% 0; }
-  to { -webkit-mask-position: 120% 0; mask-position: 120% 0; }
-}
-
-.dh-hero__fg {
-  position: relative;
   display: flex;
   flex-direction: column;
-  gap: var(--dh-s3);
-  padding: 52px 48px;
-  max-width: 720px;
+  align-items: center;
+  gap: 16px;
+  padding: 76px 0 64px;
+  text-align: center;
 }
 
-/* Hero lockup. The 48.12px word and 43px mark are not arbitrary: at this size
-   the lockup measures exactly as wide as the tagline, so the two share a right
-   edge. Re-measure if either the tagline or the wordmark changes — the .net to
-   .com rename alone moved the lockup 23.9px wider. */
+.dh-hero .dh-eyebrow {
+  font-size: 11px;
+}
+
+/* The lockup is set in one flex line so the mark scales with the word: the mark
+   is 0.86em, so the whole thing grows and shrinks together with no re-fitting.
+   Weight 400 here, not 700 — at display size the lighter cut is what keeps
+   "hell" reading as the emphasis. */
 .dh-lockup {
+  margin: 0;
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin: 0;
+  gap: 14px;
+  font-size: clamp(32px, 5.4vw, 56px);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  color: var(--dh-heading);
 }
 
 .dh-lockup__mark {
   flex: none;
+  width: 0.86em;
+  height: 0.86em;
 }
 
-.dh-lockup__word {
-  font-size: 48.12px;
-  font-weight: 700;
-  letter-spacing: -0.045em;
-  line-height: 1;
-  color: var(--dh-heading);
-  white-space: nowrap;
-}
-
-.dh-lockup__word b {
-  font-weight: 800;
-  color: var(--dh-accent);
-}
-
-.dh-lockup__word i {
-  font-style: normal;
-  color: var(--dh-muted);
-}
+.dh-lockup b { font-weight: 800; color: var(--dh-accent); }
+.dh-lockup i { font-style: normal; font-weight: 300; color: var(--dh-muted); }
 
 .dh-hero__tagline {
-  font-size: 20px;
-  line-height: 1.5;
-  color: var(--dh-secondary);
-  max-width: 44ch;
   margin: 0;
-  text-wrap: pretty;
-}
-
-@media (max-width: 900px) {
-  .dh-hero__fg { padding: 34px 24px; max-width: none; }
-  .dh-lockup__word { font-size: 32px; }
-  .dh-lockup__mark { width: 32px; height: 32px; }
-  .dh-hero__tagline { font-size: 17px; }
-  /* Stacked, the copy sits over the whole plate — fade the art downward. */
-  .dh-hero__masked,
-  .dh-hero__sweep {
-    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 72%);
-    mask-image: linear-gradient(180deg, transparent 0%, #000 72%);
-  }
-}
-
-/* The hero is decoration. If motion is unwelcome, it holds still. */
-@media (prefers-reduced-motion: reduce) {
-  .dh-pk,
-  .dh-hero__hot,
-  .dh-hero__beam {
-    animation: none;
-  }
-  .dh-hero__hot { -webkit-mask-image: none; mask-image: none; opacity: .4; }
-  .dh-hero__beam { display: none; }
+  font-size: clamp(16px, 1.7vw, 18px);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--dh-secondary);
+  max-width: none;
 }
 
 /* -- 13c Homepage list ---------------------------------------------------- */
@@ -1686,6 +1539,26 @@ body:has(.dh-about) { overflow-x: clip; }
   --dh-mesh-ink: 0,192,232;
   --dh-mesh-line: 86,214,244;
   --dh-mesh-dim: 1;
+}
+
+/* Homepage: revealed across the top only, gone before the cards start. */
+.dh-mesh--hero {
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 16%, transparent 34%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 16%, transparent 34%);
+}
+
+/* About: a horizontal band, level with the topic band. */
+.dh-mesh--band {
+  -webkit-mask-image: linear-gradient(180deg, transparent 16%, #000 34%, #000 60%, transparent 80%);
+  mask-image: linear-gradient(180deg, transparent 16%, #000 34%, #000 60%, transparent 80%);
+}
+
+/* Shorter viewports need a tighter reveal or the field runs into the cards. */
+@media (max-width: 860px) {
+  .dh-mesh--hero {
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 12%, transparent 28%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 12%, transparent 28%);
+  }
 }
 
 /* Cyan-500 has nothing to give against a near-white canvas, so on light the ink

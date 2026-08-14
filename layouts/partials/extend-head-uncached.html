@@ -5,22 +5,39 @@
   and cannot vary per page. extend-head-uncached.html is called with `partial`
   and the page context, so it can.
 
-  The script creates its own host element, which is why a <head> hook is enough.
+  The mesh script creates its own host element, which is why a <head> hook is
+  enough — no theme template is forked to add a wrapper.
 */}}
-{{ if and .File (eq .File.ContentBaseName "about") }}
-  {{/* 8c runs a narrower column than the rest of the site. Emitting it as a
-       custom property keeps the rule itself in custom.css and confines the
-       change to this page — no body class, no forked baseof. */}}
-  <style>:root{--dh-page-col:1180px}</style>
+{{ $mesh := "" }}
+{{ $col := "" }}
 
-  {{ $mesh := resources.Get "js/mesh-background.js" }}
-  {{ if $mesh }}
-    {{ $mesh = $mesh | resources.Minify | resources.Fingerprint (site.Params.fingerprintAlgorithm | default "sha512") }}
+{{ if .IsHome }}
+  {{/* Homepage: the field is revealed across the top and fades out before the
+       cards begin, so the hero reads as its own zone. */}}
+  {{ $mesh = "dh-mesh dh-mesh--hero" }}
+  {{ $col = "1180px" }}
+{{ else if and .File (eq .File.ContentBaseName "about") }}
+  {{/* About: revealed as a horizontal band, level with the topic band. */}}
+  {{ $mesh = "dh-mesh dh-mesh--band" }}
+  {{ $col = "1180px" }}
+{{ end }}
+
+{{ with $col }}
+  {{/* Declared here rather than in a body class so the rule itself stays in
+       custom.css and no other page moves. */}}
+  <style>:root{--dh-page-col:{{ . }}}</style>
+{{ end }}
+
+{{ with $mesh }}
+  {{ $js := resources.Get "js/mesh-background.js" }}
+  {{ if $js }}
+    {{ $js = $js | resources.Minify | resources.Fingerprint (site.Params.fingerprintAlgorithm | default "sha512") }}
     <script
       type="text/javascript"
-      src="{{ $mesh.RelPermalink }}"
-      integrity="{{ $mesh.Data.Integrity }}"
-      data-mesh-auto="band"
+      src="{{ $js.RelPermalink }}"
+      integrity="{{ $js.Data.Integrity }}"
+      data-mesh-auto="css"
+      data-mesh-class="{{ . }}"
       defer></script>
   {{ end }}
 {{ end }}

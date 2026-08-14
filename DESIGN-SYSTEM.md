@@ -1,6 +1,10 @@
 # dependencyhell.com — design system
 
-Version 1.7. The prose form of `dependencyhell.net Design System.dc (1).html`.
+Version 1.8. The prose form of `dependencyhell.net Design System.dc (1).html`.
+
+**Changed in 1.8** — the homepage hero is type only: a centred lockup over the
+policy mesh, with no panel and no bespoke animation. The mesh now serves both
+the homepage (revealed across the top) and About (revealed as a band).
 
 **Changed in 1.7** — the About page carries an animated policy-mesh background.
 See §08.
@@ -226,9 +230,16 @@ would still get dark.
 
 ## 08 Policy-mesh background
 
-About only. A fixed field of policy nodes behind the page, masked to a
-horizontal band (`transparent 24% → solid 40–62% → transparent 80%`) so it reads
-as a horizon rather than wallpaper.
+Shared by the homepage and About. A fixed field of policy nodes behind the page,
+revealed by a mask that differs per page:
+
+- **Homepage** (`.dh-mesh--hero`) — across the top, gone by 34%, so the hero has
+  motion and the cards sit on clean canvas.
+- **About** (`.dh-mesh--band`) — a horizontal band, level with the topic band, so
+  it reads as a horizon rather than wallpaper.
+
+The masks live in CSS, not in the script: an inline mask cannot carry a media
+query, and the hero needs a tighter reveal on small screens.
 
 **The sweep enters from the right, runs inward and dissolves just past the
 centre** — it never reaches the left edge, which is where the reading column

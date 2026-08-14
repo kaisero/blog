@@ -50,8 +50,12 @@ fingerprintAlgorithm = "sha512"
   showScrollToTop = true
 
 [homepage]
-  layout = "custom"  # design system: masthead + dense post list (layouts/partials/home/custom.html)
+  layout = "custom"  # design system: hero + card grid (layouts/partials/home/custom.html)
   showRecent = false
+  # Must be set explicitly: Blowfish's own params default this to 5, and theme
+  # config merges under project config, so a `default` in the template never
+  # fires. Kept a multiple of three so the 3-up grid has no ragged last row.
+  showRecentItems = 6
   cardView = true
 
 [article]

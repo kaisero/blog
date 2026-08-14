@@ -120,7 +120,7 @@
       var tag = document.querySelector('script[data-mesh-auto]');
       if (tag) {
         var host = document.createElement('div');
-        host.className = 'dh-mesh';
+        host.className = tag.getAttribute('data-mesh-class') || 'dh-mesh';
         host.setAttribute('data-mesh-bg', '');
         host.setAttribute('data-mask', tag.getAttribute('data-mesh-auto') || 'band');
         host.setAttribute('aria-hidden', 'true');
@@ -133,7 +133,11 @@
 
     Array.prototype.forEach.call(hosts, function (host, idx) {
       var canvas = document.createElement('canvas');
-      var mask = MASKS[host.getAttribute('data-mask') || 'band'];
+      /* "css" hands the reveal to the stylesheet, which is what both real pages
+         use — an inline mask cannot carry a media query, and the hero needs a
+         tighter reveal on small screens. */
+      var key = host.getAttribute('data-mask') || 'band';
+      var mask = key === 'css' ? null : MASKS[key];
 
       canvas.setAttribute('aria-hidden', 'true');
       canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;';

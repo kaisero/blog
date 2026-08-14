@@ -67,6 +67,7 @@
   --dh-accent: #00c0e8;
   --dh-accent-fill: #00c0e8;
   --dh-accent-hover: #0196b3;
+  --dh-cyan-200: #adf0fa;
   --dh-cyan-300: #7fe4f7;
   --dh-cyan-400: #56d6f4;
   --dh-ink: #001d2b; /* text on a cyan fill */
@@ -1397,6 +1398,7 @@ html:not(.dark) {
   --dh-accent: #0a7089;
   --dh-accent-fill: #00c0e8;
   --dh-accent-hover: #0a4e5e;
+  --dh-cyan-200: #adf0fa;
   --dh-cyan-300: #076b82;
   --dh-cyan-400: #0a7089;
 
@@ -1486,22 +1488,187 @@ html:not(.dark) .highlight .nf,
 html:not(.dark) .highlight .nb { color: var(--dh-heading); }
 
 /* Page-scoped column. Blowfish sets the measure with a utility on <body>; About
-   narrows it to match the 8c layout by declaring --dh-page-col in its own head,
-   so no other page moves. */
+   narrows it to 1180 by declaring --dh-page-col in its own head, so no other
+   page moves. */
 body {
   max-width: var(--dh-page-col, 80rem);
 }
 
-/* The 8c eyebrow: the topic line between the title and the copy. Mono, tracked,
-   at the meta colour — the same register as a date or a reading time. */
-.dh-page-eyebrow,
-.prose p.dh-page-eyebrow {
+/* -- 16b The About page (§09) ---------------------------------------------
+   A bespoke layout, not the article template: masthead, a full-bleed band whose
+   hairlines line up with where the mesh is revealed, then two columns. */
+
+.dh-about__masthead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 56px 0 30px;
+}
+
+.dh-about__eyebrow {
   font-family: var(--dh-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.1em;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dh-accent);
+}
+
+.dh-about__name {
+  margin: 14px 0 0;
+  font-size: clamp(34px, 5vw, 52px);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  color: var(--dh-heading);
+}
+
+.dh-about__avatar {
+  width: 92px;
+  height: 92px;
+  flex: none;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid rgba(0, 192, 232, 0.35);
+  background: rgba(0, 9, 14, 0.6);
+}
+
+.dh-about__avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Full-bleed: the body is the constrained column here, so the band breaks out
+   of it and re-centres its own inner container. 100vw counts the scrollbar, so
+   the break-out overhangs by that much — clipped on the body rather than
+   hidden, which would turn it into a scroll container and break the sticky
+   header above it. */
+html:has(.dh-about),
+body:has(.dh-about) { overflow-x: clip; }
+
+.dh-about__band {
+  margin-inline: calc(50% - 50vw);
+  border-top: 1px solid var(--dh-line-strong);
+  border-bottom: 1px solid var(--dh-line-strong);
+  padding: 24px 0;
+}
+
+.dh-about__band-in {
+  max-width: var(--dh-page-col, 1180px);
+  margin: 0 auto;
+  padding-inline: var(--dh-pad);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dh-about__band-label {
+  font-family: var(--dh-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--dh-heading);
+}
+
+/* Topic pills step down the cyan ramp left to right — the one place the accent
+   is used as a fill sequence rather than a single mark. */
+.dh-about__topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dh-about__topics li {
+  font-family: var(--dh-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dh-ink);
+  border-radius: 6px;
+  padding: 9px 13px;
+}
+
+.dh-about__topics li:nth-child(1) { background: var(--dh-accent-fill); }
+.dh-about__topics li:nth-child(2) { background: var(--dh-cyan-400); }
+.dh-about__topics li:nth-child(3) { background: var(--dh-cyan-300); }
+.dh-about__topics li:nth-child(4) { background: var(--dh-cyan-200); }
+
+.dh-about__lede {
+  font-size: clamp(16px, 1.6vw, 17px);
+  line-height: 1.6;
+  color: var(--dh-heading);
+  max-width: 62ch;
+  text-wrap: pretty;
+  margin: 0;
+}
+
+.dh-about__columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 34px;
+  padding: 34px 0 72px;
+}
+
+.dh-about__col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.dh-about__col h2 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--dh-heading);
+}
+
+.dh-about__contact {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 92px 1fr;
+}
+
+.dh-about__contact dt {
+  font-family: var(--dh-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--dh-meta);
-  margin: 0 0 34px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--dh-line-divider);
+  align-self: baseline;
+}
+
+.dh-about__contact dd {
+  margin: 0;
+  padding: 11px 0;
+  font-size: 15px;
+  border-bottom: 1px solid var(--dh-line-divider);
+}
+
+.dh-about__contact dt:last-of-type,
+.dh-about__contact dd:last-of-type { border-bottom: 0; }
+
+.dh-about__contact a {
+  color: var(--dh-link);
+  border-bottom: 1px solid var(--dh-link-underline);
+}
+.dh-about__contact a:hover { color: var(--dh-accent); border-bottom-color: var(--dh-accent); }
+
+.dh-about__body p {
+  margin: 0 0 12px;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--dh-body);
+  text-wrap: pretty;
+}
+.dh-about__body p:last-child { margin-bottom: 0; color: var(--dh-secondary); }
+
+@media (max-width: 860px) {
+  .dh-about__masthead { flex-direction: column; align-items: flex-start; gap: 22px; padding: 40px 0 26px; }
+  .dh-about__columns { grid-template-columns: 1fr; gap: 28px; }
 }
 
 /* -- 17 Policy-mesh background (§08) --------------------------------------

@@ -24,7 +24,7 @@
   var MASKS = {
     top: 'linear-gradient(180deg, #000 0%, #000 22%, transparent 58%)',
     radial: 'radial-gradient(58% 46% at 20% 34%, #000 0%, rgba(0,0,0,.55) 42%, transparent 78%)',
-    band: 'linear-gradient(180deg, transparent 24%, #000 40%, #000 62%, transparent 80%)',
+    band: 'linear-gradient(180deg, transparent 16%, #000 34%, #000 60%, transparent 80%)',
     left: 'linear-gradient(90deg, #000 0%, #000 18%, transparent 52%)',
     none: null
   };

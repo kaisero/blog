@@ -1,0 +1,80 @@
+{{/* About — bespoke layout, ported from the 8c prototype.
+
+  Not the article template: this page is a masthead, a bordered band whose
+  hairlines line up with where the mesh background is revealed, and a two-column
+  footer block. The theme's header and footer are untouched — only "main" is
+  replaced, so the rest of the site is unaffected.
+
+  Structured content comes from front matter (eyebrow, bandLabel, topics, lede);
+  contact rows come from params.author.links; the page body is the disclaimer.
+*/}}
+{{ define "main" }}
+  {{ $author := site.Params.author }}
+
+  <div class="dh-about">
+
+    <div class="dh-about__masthead">
+      <div>
+        {{ with .Params.eyebrow | default "About the author" }}
+          <div class="dh-about__eyebrow">{{ . }}</div>
+        {{ end }}
+        <h1 class="dh-about__name">{{ .Params.name | default $author.name | default .Title }}</h1>
+      </div>
+
+      {{ with $author.image }}
+        {{ $img := resources.Get . }}
+        {{ with $img }}
+          <div class="dh-about__avatar">
+            <img src="{{ .RelPermalink }}" width="192" height="192"
+                 alt="{{ $author.name | default site.Title }}" />
+          </div>
+        {{ end }}
+      {{ end }}
+    </div>
+
+    <section class="dh-about__band">
+      <div class="dh-about__band-in">
+        {{ with .Params.bandLabel }}<div class="dh-about__band-label">{{ . }}</div>{{ end }}
+        {{ with .Params.topics }}
+          <ul class="dh-about__topics">
+            {{ range . }}<li>{{ . }}</li>{{ end }}
+          </ul>
+        {{ end }}
+        {{ with .Params.lede }}<p class="dh-about__lede">{{ . | markdownify }}</p>{{ end }}
+      </div>
+    </section>
+
+    <div class="dh-about__columns">
+      <section class="dh-about__col" id="contact">
+        <span class="dh-rule"></span>
+        <h2>{{ .Params.contactHeading | default "Contact me" }}</h2>
+        <dl class="dh-about__contact">
+          {{ range $author.links }}
+            {{ range $key, $url := . }}
+              {{ $label := index (dict "email" "Email" "linkedin" "LinkedIn" "github" "GitHub"
+                                       "mastodon" "Mastodon" "bluesky" "Bluesky" "x-twitter" "X") $key }}
+              {{ $shown := $url }}
+              {{ $shown = strings.TrimPrefix "mailto:" $shown }}
+              {{ $shown = strings.TrimPrefix "https://" $shown }}
+              {{ $shown = strings.TrimPrefix "http://" $shown }}
+              <dt>{{ $label | default (title $key) }}</dt>
+              <dd>
+                <a href="{{ $url }}"
+                  {{ if not (hasPrefix $url "mailto:") }}target="_blank" rel="noreferrer"{{ end }}>{{ $shown }}</a>
+              </dd>
+            {{ end }}
+          {{ end }}
+        </dl>
+      </section>
+
+      <section class="dh-about__col" id="disclaimer">
+        <span class="dh-rule"></span>
+        <h2>{{ .Params.disclaimerHeading | default "Disclaimer" }}</h2>
+        <div class="dh-about__body">
+          {{ .Content }}
+        </div>
+      </section>
+    </div>
+
+  </div>
+{{ end }}

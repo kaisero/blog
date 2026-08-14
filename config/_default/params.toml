@@ -54,7 +54,12 @@ fingerprintAlgorithm = "sha512"
   showDate = true
   showDateOnlyInArticle = false
   showDateUpdated = false
-  showAuthor = false        # single-author site; the byline lives in the footer
+  showAuthor = true
+  # The blurred-background hero (heroStyle = "background" + layoutBackgroundBlur)
+  # works, but needs artwork with tonal range. The card thumbnails are single-hue
+  # line art: under the theme's ~84% scrim it disappears in dark and leaves only a
+  # seam in light. Add a per-post background.jpg — the theme matches *background*
+  # ahead of *feature* — before switching this on.
   showHero = false
   showBreadcrumbs = false
   showDraftLabel = true

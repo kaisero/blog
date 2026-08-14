@@ -1,6 +1,9 @@
-# dependencyhell.net — design system
+# dependencyhell.com — design system
 
-Version 1.3. The prose form of `dependencyhell.net Design System.dc (1).html`.
+Version 1.4. The prose form of `dependencyhell.net Design System.dc (1).html`.
+
+**Changed in 1.4** — the domain is dependencyhell.com. The hero lockup was
+re-fitted, since the wordmark's width is what the tagline is matched against.
 
 **Changed in 1.3** — the light appearance is built, not just buildable. The site
 follows the reader's OS preference with a manual override in the footer. See
@@ -127,8 +130,9 @@ the title row.
   packets under an inspection beam that brightens a dot field as it passes. The
   composition rule is that art never crosses copy: lanes running behind the text
   are masked back, the lanes above and below run edge to edge. The wordmark is
-  the `h1` — 50.5px word, 45px mark, sized so the lockup and the tagline share a
-  right edge (re-measure if the tagline changes). No buttons: the card grid is
+  the `h1` — 48.12px word, 43px mark, sized so the lockup and the tagline share
+  a right edge. Re-measure if *either* string changes: renaming .net to .com
+  alone made the lockup 23.9px wider. No buttons: the card grid is
   immediately below them. Lane positions are percentages, never pixels, so they
   track the lanes at any hero height. Motion is transform and mask-position
   only, and stops entirely under `prefers-reduced-motion`.

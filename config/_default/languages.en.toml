@@ -2,7 +2,7 @@ disabled = false
 locale = "en"
 label = "English"
 weight = 1
-title = "dependencyhell.net"
+title = "dependencyhell.com"
 
 [params]
   displayName = "EN"
@@ -13,7 +13,7 @@ title = "dependencyhell.net"
   # Shown in the homepage hero under the wordmark. The hero lockup is sized to
   # match this line's width, so re-check the alignment if you change it.
   tagline = "Trust Nothing. Verify Everything. Hallucinate the Rest."
-  copyright = "© 2026 dependencyhell.net"
+  copyright = "© 2026 dependencyhell.com"
 
 [params.author]
   name = "Oliver Mackenzie"

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   dependencyhell.net — design system implementation
+   dependencyhell.com — design system implementation
    Normative source: DESIGN-SYSTEM.md. Every value below traces to a section
    there. If you want to change a value, change the spec first.
 
@@ -1223,13 +1223,14 @@ main header h1,
   max-width: 720px;
 }
 
-/* Hero lockup. The 50.5px word and 45px mark are not arbitrary: at this size
+/* Hero lockup. The 48.12px word and 43px mark are not arbitrary: at this size
    the lockup measures exactly as wide as the tagline, so the two share a right
-   edge. Re-measure if the tagline text changes. */
+   edge. Re-measure if either the tagline or the wordmark changes — the .net to
+   .com rename alone moved the lockup 23.9px wider. */
 .dh-lockup {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 15px;
   margin: 0;
 }
 
@@ -1238,7 +1239,7 @@ main header h1,
 }
 
 .dh-lockup__word {
-  font-size: 50.5px;
+  font-size: 48.12px;
   font-weight: 700;
   letter-spacing: -0.045em;
   line-height: 1;

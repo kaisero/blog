@@ -1,6 +1,9 @@
 # dependencyhell.com — design system
 
-Version 1.4. The prose form of `dependencyhell.net Design System.dc (1).html`.
+Version 1.5. The prose form of `dependencyhell.net Design System.dc (1).html`.
+
+**Changed in 1.5** — articles carry a blurred background hero, and the author
+byline is shown. See §05 and §07.
 
 **Changed in 1.4** — the domain is dependencyhell.com. The hero lockup was
 re-fitted, since the wordmark's width is what the tagline is matched against.
@@ -136,6 +139,14 @@ the title row.
   immediately below them. Lane positions are percentages, never pixels, so they
   track the lanes at any hero height. Motion is transform and mask-position
   only, and stops entirely under `prefers-reduced-motion`.
+- **Article background hero** — a full-bleed image behind the article header,
+  blurred and faded into the canvas. It uses a dedicated `background.svg` per
+  post, **not** the card thumbnail: the theme matches `*background*` ahead of
+  `*feature*`. The two are drawn differently on purpose — a thumbnail is read at
+  400px and can carry hairlines, a hero is read blurred under a heavy scrim and
+  needs large mid-tone forms or it disappears. Mid-tone also means one file
+  serves both appearances. The body background goes transparent on these pages,
+  or it would paint over the image everywhere except the page margins.
 - **Buttons** — mono, uppercase, height 42px, radius 6. Primary = cyan-500 fill
   with `#001D2B` ink. The stroke variant keeps the same box by trading 2px of
   padding for the border.
@@ -182,6 +193,17 @@ muted `#3E6B79`, meta `#4C7B8B`, link `#0A7089`. The canvas is `#FAFDFE` rather
 than a deeper tint precisely so `#4C7B8B` clears 4.5:1 (it measures 4.55:1).
 
 Measured minimums: **6.26:1** in dark, **4.55:1** in light.
+
+Two things the light appearance needs beyond the tokens:
+
+- Blowfish paints its own muted text with Tailwind's `neutral` utilities, which
+  resolve to the scheme's fixed values and therefore do **not** switch with the
+  appearance. `neutral-500` measures 3.47:1 on the light canvas, so those
+  utilities are re-pointed at the tokens.
+- `#4C7B8B` sits exactly on the floor against the canvas, so it has no headroom.
+  Anything that darkens the surface under it — the background hero drops it to
+  2.79:1 — must step the muted tokens down. The article header does this locally
+  (`#244C59`, 5.60:1 measured against the worst backdrop pixel).
 
 **Art carries no colour of its own.** The hero lanes, dot field and every card
 thumbnail resolve their strokes and fills to tokens, which is why SVG thumbnails

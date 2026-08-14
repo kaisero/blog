@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="presentation">
+  <!-- See posture-check-fails-open/background.svg for the rationale: large
+       mid-tone forms, one hue, linear gradients only. -->
+  <defs>
+    <linearGradient id="saBase" x1="0" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#0A4E5E"/>
+      <stop offset="0.55" stop-color="#0A3A47"/>
+      <stop offset="1" stop-color="#01202E"/>
+    </linearGradient>
+    <linearGradient id="saLane" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#00C0E8" stop-opacity="0"/>
+      <stop offset="0.45" stop-color="#00C0E8" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#00C0E8" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#saBase)"/>
+
+  <!-- broad inspected lanes -->
+  <g fill="url(#saLane)">
+    <rect x="0" y="170" width="1600" height="76"/>
+    <rect x="0" y="380" width="1600" height="76"/>
+    <rect x="0" y="590" width="1600" height="76"/>
+  </g>
+
+  <!-- the bypass, routed around and never opened -->
+  <path d="M0 790 H620 C760 790 760 880 900 880 H1600" fill="none"
+        stroke="#7FA8B5" stroke-width="34" stroke-opacity="0.3" stroke-dasharray="90 60"/>
+
+  <!-- the inspection point -->
+  <rect x="900" y="90" width="150" height="700" rx="28" fill="#01202E" fill-opacity="0.85"
+        stroke="#00C0E8" stroke-width="16" stroke-opacity="0.7"/>
+</svg>

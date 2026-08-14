@@ -186,6 +186,15 @@ button,
   color: var(--dh-heading);
 }
 
+/* When a post carries a background hero, the body must not paint over it.
+   Blowfish puts the image at z-index -10, so an opaque body background hides it
+   everywhere except the page margins — which reads as two vertical bands rather
+   than a backdrop. The canvas colour still comes from <html>, so nothing else
+   changes. */
+body:has(#background-image) {
+  background: transparent;
+}
+
 /* -- 03 Typography -------------------------------------------------------- */
 
 h1, h2, h3, h4, h5, h6 {
@@ -1434,6 +1443,31 @@ html:not(.dark) {
   --dh-thumb-deep: #a5eafa;
   --dh-thumb-ink: #001d2b;
   --dh-thumb-plate: #ffffff;
+}
+
+/* Blowfish paints its own muted text with Tailwind's neutral utilities. Those
+   resolve to the scheme's fixed values, which were chosen for the dark ramp and
+   do not switch with the appearance — neutral-500 measures 3.47:1 on the light
+   canvas. Re-point them at the tokens, which do switch. */
+html:not(.dark) .text-neutral-500,
+html:not(.dark) .text-neutral-400 {
+  color: var(--dh-meta);
+}
+
+html:not(.dark) .text-neutral-700,
+html:not(.dark) .text-neutral-800 {
+  color: var(--dh-body);
+}
+
+/* A background hero drops the surface behind the article header to roughly 0.58
+   luminance, where the light meta colour measures 2.79:1. It has no headroom to
+   give — #4C7B8B is already sitting on the 4.5:1 floor against the canvas — so
+   inside that header the muted tokens step down. Everything nested picks it up,
+   tags and byline included. */
+html:not(.dark) body:has(#background-image) article > header {
+  --dh-meta: #244c59;
+  --dh-muted: #244c59;
+  --dh-secondary: #1d4653;
 }
 
 /* Syntax highlighting follows the same rule: single hue, low contrast, and the

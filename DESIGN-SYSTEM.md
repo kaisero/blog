@@ -1,6 +1,10 @@
 # dependencyhell.com — design system
 
-Version 1.5. The prose form of `dependencyhell.net Design System.dc (1).html`.
+Version 1.6. The prose form of `dependencyhell.net Design System.dc (1).html`.
+
+**Changed in 1.6** — dark is the default for every reader; the site no longer
+follows the OS. The footer switch still offers light and the choice is
+remembered. Authoring notes now live in [`USAGE.md`](USAGE.md).
 
 **Changed in 1.5** — articles carry a blurred background hero, and the author
 byline is shown. See §05 and §07.
@@ -9,8 +13,7 @@ byline is shown. See §05 and §07.
 re-fitted, since the wordmark's width is what the tagline is matched against.
 
 **Changed in 1.3** — the light appearance is built, not just buildable. The site
-follows the reader's OS preference with a manual override in the footer. See
-§07.
+defaults to dark for every reader, with a manual override in the footer. See §07.
 
 **Changed in 1.2** — the homepage masthead is replaced by an animated hero
 (§05). The wordmark is now the page `h1`; the keywords moved down to the eyebrow.
@@ -170,8 +173,10 @@ the title row.
 ## 07 The light appearance
 
 Dark values live in `:root`; `html:not(.dark)` overrides every
-appearance-dependent token. A page that never receives the `.dark` class — no
-JavaScript, or a light OS preference — therefore lands in light.
+appearance-dependent token. Dark is the default: the theme adds `.dark` unless
+the reader has chosen light from the footer switch, and that choice is kept in
+`localStorage`. A page that never receives the class — JavaScript off, or that
+stored choice — lands in light.
 
 Two things are **not** a straight inversion:
 
@@ -210,8 +215,8 @@ thumbnail resolve their strokes and fills to tokens, which is why SVG thumbnails
 are inlined rather than referenced with `<img>` — a stylesheet cannot reach
 inside an image.
 
-**Config trap.** `autoSwitchAppearance = true` only follows the OS if
-`defaultAppearance = "light"`. The theme's `appearance.js` adds `.dark`
+**Config trap**, if OS-following is ever wanted again: `autoSwitchAppearance =
+true` only follows the OS if `defaultAppearance = "light"`. The theme's `appearance.js` adds `.dark`
 unconditionally when the default is `dark` and no choice is stored, and its
 auto-switch branch only ever *adds* dark on load — so a light-preferring visitor
 would still get dark.

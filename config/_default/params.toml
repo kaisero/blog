@@ -5,12 +5,16 @@
 # DESIGN-SYSTEM.md and must not be changed without changing the spec.
 
 colorScheme = "dependencyhell"  # design system: assets/css/schemes/dependencyhell.css
-# Must be "light" for autoSwitchAppearance to actually follow the OS: the theme's
-# appearance.js adds .dark unconditionally when defaultAppearance is "dark" and no
-# choice is stored, and its auto-switch branch only ever *adds* dark on load. With
-# "light" the OS query is what decides, which is the intended behaviour here.
-defaultAppearance = "light"
-autoSwitchAppearance = true     # follow the reader's system setting
+# Dark by default for everyone; the footer switch still lets a reader pick light,
+# and that choice is remembered in localStorage.
+#
+# Note if you ever want to follow the OS instead: autoSwitchAppearance only works
+# with defaultAppearance = "light". The theme's appearance.js adds .dark
+# unconditionally when the default is "dark" and no choice is stored, and its
+# auto-switch branch only ever *adds* dark on load — so a light-preferring reader
+# would never see light.
+defaultAppearance = "dark"
+autoSwitchAppearance = false
 
 enableA11y = true
 enableSearch = true

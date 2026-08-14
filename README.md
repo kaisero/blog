@@ -19,6 +19,9 @@ illustrative scaffolding, not verified research. A plain `hugo server` will show
 an empty post list until you publish something real — that is expected. Delete
 them once you have your own first post.
 
+Day-to-day authoring notes — front matter, the two per-post SVGs, and what to
+check before publishing — are in [`USAGE.md`](USAGE.md).
+
 ## Writing a post
 
 ```console

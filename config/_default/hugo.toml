@@ -1,7 +1,7 @@
 # -- Site Configuration --
 # https://blowfish.page/docs/getting-started/
 
-baseURL = "https://dependencyhell.com/"
+baseURL = "https://dependencyhell.net/"
 defaultContentLanguage = "en"
 
 enableRobotsTXT = true

@@ -1,4 +1,4 @@
 ---
-title: "dependencyhell.com"
-description: "Notes on AI security, Zero Trust and SASE — from the lab, not the datasheet."
+title: "dependencyhell.net"
+description: "Personal Blog of Oliver Mackenzie. Rumblings about AI security, Zero Trust and SASE."
 ---

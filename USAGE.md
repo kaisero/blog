@@ -1,4 +1,4 @@
-# Writing for dependencyhell.com
+# Writing for dependencyhell.net
 
 Day-to-day authoring notes. For the visual rules themselves see
 [`DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md).

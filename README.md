@@ -1,4 +1,4 @@
-# dependencyhell.com
+# dependencyhell.net
 
 Notes on AI security, Zero Trust and SASE. Hugo + [Blowfish](https://blowfish.page/),
 built to [`DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md).
@@ -76,6 +76,6 @@ design system relies on a handful of the theme's class names.
 **GitHub Actions**.
 
 The workflow passes the base URL from the Pages API, so it works both on
-`*.github.io` and on a custom domain. To attach `dependencyhell.com` later, add
+`*.github.io` and on a custom domain. To attach `dependencyhell.net` later, add
 the DNS records, set the custom domain in the Pages settings, and commit a
-`static/CNAME` file containing `dependencyhell.com`.
+`static/CNAME` file containing `dependencyhell.net`.

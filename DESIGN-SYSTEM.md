@@ -1,4 +1,4 @@
-# dependencyhell.com — design system
+# dependencyhell.net — design system
 
 Version 1.8. The prose form of `dependencyhell.net Design System.dc (1).html`.
 
@@ -16,7 +16,7 @@ remembered. Authoring notes now live in [`USAGE.md`](USAGE.md).
 **Changed in 1.5** — articles carry a blurred background hero, and the author
 byline is shown. See §05 and §07.
 
-**Changed in 1.4** — the domain is dependencyhell.com. The hero lockup was
+**Changed in 1.4** — the domain is dependencyhell.net. The hero lockup was
 re-fitted, since the wordmark's width is what the tagline is matched against.
 
 **Changed in 1.3** — the light appearance is built, not just buildable. The site

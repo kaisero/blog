@@ -2,18 +2,18 @@ disabled = false
 locale = "en"
 label = "English"
 weight = 1
-title = "dependencyhell.com"
+title = "dependencyhell.net"
 
 [params]
   displayName = "EN"
   isoCode = "en"
   rtl = false
   dateFormat = "2 January 2006"  # design system: "11 August 2026"
-  description = "Notes on AI security, Zero Trust and SASE — from the lab, not the datasheet."
+  description = "Notes on AI security, Zero Trust and SASE."
   # Shown in the homepage hero under the wordmark. The hero lockup is sized to
   # match this line's width, so re-check the alignment if you change it.
   tagline = "Trust Nothing. Verify Everything. Hallucinate the Rest."
-  copyright = "© 2026 dependencyhell.com"
+  copyright = "© 2026 dependencyhell.net"
 
 [params.author]
   name = "Oliver Mackenzie"
@@ -21,7 +21,7 @@ title = "dependencyhell.com"
   # Fill/Crop on raster images. Swap in a photo when you have one.
   image = "img/avatar-placeholder.svg"
   headline = "Domain Consultant at Palo Alto Networks"
-  bio = "I work on Zero Trust and SASE architectures. This is where I write up what I actually see when I put the products on a bench — the failure modes, the defaults nobody documents, and where AI is quietly changing the threat model. Opinions are mine."
+  bio = "I work as a Domain Consultant at Palo Alto Networks, focusing on how organizations can modernize their defenses with modern ZTNA and SASE architectures."
   links = [
     { email = "mailto:oliver@mackenzie.co.at" },
     { linkedin = "https://linkedin.com/in/kaisero" },
